@@ -4,7 +4,7 @@
 	"AppIdentifier": "com.telerik.photoalbum",
 	"DisplayName": "Photo Album",
 	"Author": "",
-	"Description": "",
+	"Description": "Build a photo album using your device's camera",
 	"BundleVersion": "1.0",
 	"Framework": "Cordova",
 	"FrameworkVersion": "3.7.0",
