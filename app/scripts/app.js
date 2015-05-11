@@ -1,7 +1,7 @@
 (function() {
     document.addEventListener("deviceready", function () {
 
-        var everlive = new Everlive("aHzhk8TvyFp2hRhS");
+        var everlive = new Everlive("nZW1n5LAl8fG1uQo");
 
         window.listview = kendo.observable({
             addImage: function() {
