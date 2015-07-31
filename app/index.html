@@ -16,10 +16,12 @@
 <body>
 
 <div data-role="view" data-title="Photos" data-model="listview">
-    <div data-role="navbar">
-        <span data-role="view-title"></span>
-        <button data-role="button" data-align="right" data-bind="click: addImage">Add</button>
-    </div>
+    <header data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <button data-role="button" data-align="right" data-bind="click: addImage">Add</button>
+        </div>
+    </header>
     <ul id="images"></ul>
 </div>
 

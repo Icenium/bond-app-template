@@ -1,8 +1,6 @@
 (function() {
+    var everlive = new Everlive("s2voxDcH8vu5ossW");
     document.addEventListener("deviceready", function () {
-
-        var everlive = new Everlive("s2voxDcH8vu5ossW");
-
         window.listview = kendo.observable({
             addImage: function() {
                 var success = function(data) {
@@ -28,9 +26,10 @@
         function loadPhotos() {
             everlive.Files.get().then(function(data) {
                 var files = [];
-                data.result.forEach(function(image) {
+                for (var i = data.result.length - 1; i >= 0; i--) {
+                    var image = data.result[i];
                     files.push(image.Uri);
-                });
+                }
                 $("#images").kendoMobileListView({
                     dataSource: files,
                     template: "<img src='#: data #'>"
