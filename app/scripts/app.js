@@ -1,7 +1,7 @@
 (function() {
     document.addEventListener("deviceready", function () {
 
-        var everlive = new Everlive("nZW1n5LAl8fG1uQo");
+        var everlive = new Everlive("s2voxDcH8vu5ossW");
 
         window.listview = kendo.observable({
             addImage: function() {
@@ -23,7 +23,7 @@
                 navigator.camera.getPicture(success, error, config);
             }
         });
-        var app = new kendo.mobile.Application(document.body, { skin: "flat" });
+        var app = new kendo.mobile.Application(document.body, { skin: "nova" });
 
         function loadPhotos() {
             everlive.Files.get().then(function(data) {
