@@ -264,6 +264,7 @@ declare module kendo {
         tagName?: string;
         wrap?: boolean;
         model?: Object;
+        evalTemplate?: boolean;
         init?: (e: ViewEvent) => void;
         show?: (e: ViewEvent) => void;
         hide?: (e: ViewEvent) => void;
@@ -335,6 +336,7 @@ declare module kendo {
         destroy(): void;
         route(route: string, callback: Function): void;
         navigate(location: string, silent?: boolean): void;
+        replace(location: string, silent?: boolean): void;
     }
 
 }
@@ -624,14 +626,14 @@ declare module kendo.data {
         static fields: DataSourceSchemaModelFields;
 
         id: any;
-		parentId: number;
-		orderId: number;
-		title: string;
-		start: Date;
-		end: Date;
-		percentComplete: number;
-		summary: boolean;
-		expanded: boolean;
+        parentId: number;
+        orderId: number;
+        title: string;
+        start: Date;
+        end: Date;
+        percentComplete: number;
+        summary: boolean;
+        expanded: boolean;
 
         static define(options: DataSourceSchemaModelWithFieldsObject): typeof GanttTask;
         static define(options: DataSourceSchemaModelWithFieldsArray): typeof GanttTask;
@@ -645,9 +647,9 @@ declare module kendo.data {
         static fields: DataSourceSchemaModelFields;
 
         id: any;
-		predecessorId: number;
-		successorId: number;
-		type: number;
+        predecessorId: number;
+        successorId: number;
+        type: number;
 
         static define(options: DataSourceSchemaModelWithFieldsObject): typeof GanttDependency;
         static define(options: DataSourceSchemaModelWithFieldsArray): typeof GanttDependency;
@@ -1028,6 +1030,12 @@ declare module kendo.data {
         page(page: number): void;
         pageSize(): number;
         pageSize(size: number): void;
+        pushCreate(model: Object): void;
+        pushCreate(models: any[]): void;
+        pushDestroy(model: Object): void;
+        pushDestroy(models: any[]): void;
+        pushUpdate(model: Object): void;
+        pushUpdate(models: any[]): void;
         query(options?: any): JQueryPromise<any>;
         read(data?: any): JQueryPromise<any>;
         remove(model: kendo.data.ObservableObject): void;
@@ -1085,7 +1093,7 @@ declare module kendo.data {
         dir?: string;
     }
 
-    interface DataSourceTransportCreate {
+    interface DataSourceTransportCreate extends JQueryAjaxSettings {
         cache?: boolean;
         contentType?: string;
         data?: any;
@@ -1094,7 +1102,7 @@ declare module kendo.data {
         url?: any;
     }
 
-    interface DataSourceTransportDestroy {
+    interface DataSourceTransportDestroy extends JQueryAjaxSettings {
         cache?: boolean;
         contentType?: string;
         data?: any;
@@ -1103,7 +1111,7 @@ declare module kendo.data {
         url?: any;
     }
 
-    interface DataSourceTransportRead {
+    interface DataSourceTransportRead extends JQueryAjaxSettings {
         cache?: boolean;
         contentType?: string;
         data?: any;
@@ -1112,7 +1120,7 @@ declare module kendo.data {
         url?: any;
     }
 
-    interface DataSourceTransportUpdate {
+    interface DataSourceTransportUpdate extends JQueryAjaxSettings {
         cache?: boolean;
         contentType?: string;
         data?: any;
@@ -1359,6 +1367,17 @@ declare module kendo.ui {
     interface GridColumn {
         editor?(container: JQuery, options: GridColumnEditorOptions): void;
     }
+
+    interface TreeListEditorOptions {
+        field?: string;
+        format?: string;
+        model?: kendo.data.Model;
+        values?: any[];
+    }
+
+    interface TreeListColumn {
+        editor?(container: JQuery, options: TreeListEditorOptions): void;
+    }
 }
 
 declare module kendo.mobile {
@@ -1420,6 +1439,2331 @@ declare module kendo.mobile.ui {
         x?: number;
         y?: number;
     }
+}
+declare module kendo.drawing {
+    class Arc extends kendo.drawing.Element {
+
+
+        options: ArcOptions;
+
+
+        constructor(geometry: kendo.geometry.Arc, options?: ArcOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the arc geometry.
+        @method
+        @returns The current arc geometry.
+        */
+        geometry(): kendo.geometry.Arc;
+        /**
+        Gets or sets the arc geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Arc): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Arc;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Arc;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ArcOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ArcEvent {
+        sender: Arc;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Circle extends kendo.drawing.Element {
+
+
+        options: CircleOptions;
+
+
+        constructor(geometry: kendo.geometry.Circle, options?: CircleOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the circle geometry.
+        @method
+        @returns The current circle geometry.
+        */
+        geometry(): kendo.geometry.Circle;
+        /**
+        Gets or sets the circle geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Circle): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Circle;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Circle;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface CircleOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface CircleEvent {
+        sender: Circle;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Element extends kendo.Class {
+
+
+        options: ElementOptions;
+
+
+        constructor(options?: ElementOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.This is the rectangle that will fit around the actual rendered element.
+        @method
+        @returns The bounding box of the element with clipping and transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the transformation of the element.
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ElementOptions {
+        name?: string;
+        /**
+        The clipping path for this element.The path instance will be monitored for changes.
+It can be replaced by calling the clip method.
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element CSS cursor.Applicable to SVG and VML outputs.
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The element opacity.
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The transformation to apply to this element.
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ElementEvent {
+        sender: Element;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface FillOptions  {
+
+
+
+        /**
+                The fill color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+                */
+                color?: string;
+        /**
+                The fill opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+                */
+                opacity?: number;
+
+
+
+
+    }
+
+
+
+    class Gradient extends kendo.Class {
+
+
+        options: GradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: GradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+        @method
+        @param offset - The stop offset from the start of the element.
+Ranges from 0 (start of gradient) to 1 (end of gradient).
+        @param color - The color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+        @param opacity - The fill opacity.
+Ranges from 0 (completely transparent) to 1 (completely opaque).
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Removes a color stop from the gradient.
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface GradientOptions {
+        name?: string;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface GradientEvent {
+        sender: Gradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class GradientStop extends kendo.Class {
+
+
+        options: GradientStopOptions;
+
+
+        constructor(options?: GradientStopOptions);
+
+
+
+    }
+
+    interface GradientStopOptions {
+        name?: string;
+        /**
+        The stop offset from the start of the element.
+Ranges from 0 (start of gradient) to 1 (end of gradient).
+        @member {number}
+        */
+        offset?: number;
+        /**
+        The color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+        @member {string}
+        */
+        color?: string;
+        /**
+        The fill opacity.
+Ranges from 0 (completely transparent) to 1 (completely opaque).
+        @member {number}
+        */
+        opacity?: number;
+    }
+    interface GradientStopEvent {
+        sender: GradientStop;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Group extends kendo.drawing.Element {
+
+
+        options: GroupOptions;
+
+        /**
+                The children of this group.
+                */
+                children: any;
+
+        constructor(options?: GroupOptions);
+
+
+        /**
+        Appends the specified element as a last child of the group.
+        @method
+        @param element - The element to append. Multiple parameters are accepted.
+        */
+        append(element: kendo.drawing.Element): void;
+        /**
+        Removes all child elements from the group.
+        @method
+        */
+        clear(): void;
+        /**
+        Gets or sets the group clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current group clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the group clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The group clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Inserts an element at the specified position.
+        @method
+        @param position - The position to insert the element at. Existing children beyond this position will be shifted right.
+        @param element - The element to insert.
+        */
+        insert(position: number, element: kendo.drawing.Element): void;
+        /**
+        Gets or sets the group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @method
+        @returns The current group opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @method
+        @param opacity - The group opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Removes the specified element from the group.
+        @method
+        @param element - The element to remove.
+        */
+        remove(element: kendo.drawing.Element): void;
+        /**
+        Removes the child element at the specified position.
+        @method
+        @param index - The index at which the element currently resides.
+        */
+        removeAt(index: number): void;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface GroupOptions {
+        name?: string;
+        /**
+        The group clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The group cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        Page options to apply during PDF export.
+        @member {kendo.drawing.PDFOptions}
+        */
+        pdf?: kendo.drawing.PDFOptions;
+        /**
+        The transformation to apply to this group and its children.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the group and its children are visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface GroupEvent {
+        sender: Group;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Image extends kendo.drawing.Element {
+
+
+        options: ImageOptions;
+
+
+        constructor(src: string, rect: kendo.geometry.Rect);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacity
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacity
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the image source URL.
+        @method
+        @returns The current image source URL.
+        */
+        src(): string;
+        /**
+        Gets or sets the image source URL.
+        @method
+        @param value - The new source URL.
+        */
+        src(value: string): void;
+        /**
+        Gets or sets the rectangle defines the image position and size.
+        @method
+        @returns The current image rectangle.
+        */
+        rect(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle defines the image position and size.
+        @method
+        @param value - The new image rectangle.
+        */
+        rect(value: kendo.geometry.Rect): void;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ImageOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ImageEvent {
+        sender: Image;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Layout extends kendo.drawing.Group {
+
+
+        options: LayoutOptions;
+
+
+        constructor(rect: kendo.geometry.Rect, options?: LayoutOptions);
+
+
+        /**
+        Gets or sets the layout rectangle.
+        @method
+        @returns The current rectangle.
+        */
+        rect(): kendo.geometry.Rect;
+        /**
+        Gets or sets the layout rectangle.
+        @method
+        @param rect - The layout rectangle.
+        */
+        rect(rect: kendo.geometry.Rect): void;
+        /**
+        Arranges the elements based on the current options.
+        @method
+        */
+        reflow(): void;
+
+    }
+
+    interface LayoutOptions {
+        name?: string;
+        /**
+        Specifies the alignment of the content. The supported values are:
+        @member {string}
+        */
+        alignContent?: string;
+        /**
+        Specifies the alignment of the items based on the largest one. The supported values are:
+        @member {string}
+        */
+        alignItems?: string;
+        /**
+        Specifies how should the content be justified. The supported values are:
+        @member {string}
+        */
+        justifyContent?: string;
+        /**
+        Specifies the distance between the lines for wrapped layout.
+        @member {number}
+        */
+        lineSpacing?: number;
+        /**
+        Specifies the distance between the elements.
+        @member {number}
+        */
+        spacing?: number;
+        /**
+        Specifies layout orientation. The supported values are:
+        @member {string}
+        */
+        orientation?: string;
+        /**
+        Specifies the behavior when the elements size exceeds the rectangle size. If set to true, the elements will be moved to the next "line". If set to false, the layout will be scaled so that the elements fit in the rectangle.
+        @member {boolean}
+        */
+        wrap?: boolean;
+    }
+    interface LayoutEvent {
+        sender: Layout;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class LinearGradient extends kendo.drawing.Gradient {
+
+
+        options: LinearGradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: LinearGradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+Inherited from Gradient.addStop
+        @method
+        @param offset - 
+        @param color - The color of the stop.
+        @param opacity - The fill opacity.
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @returns The current end point of the gradient.
+        */
+        end(): kendo.geometry.Point;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        end(end: any): void;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        end(end: kendo.geometry.Point): void;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @returns The current start point of the gradient.
+        */
+        start(): kendo.geometry.Point;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        start(start: any): void;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        start(start: kendo.geometry.Point): void;
+        /**
+        Removes a color stop from the gradient.
+Inherited from Gradient.removeStop
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface LinearGradientOptions {
+        name?: string;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface LinearGradientEvent {
+        sender: LinearGradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class MultiPath extends kendo.drawing.Element {
+
+
+        options: MultiPathOptions;
+
+        /**
+                A collection of sub-paths.
+                */
+                paths: any;
+
+        constructor(options?: MultiPathOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Closes the current sub-path by linking its current end point with its start point.
+        @method
+        @returns The current instance to allow chaining.
+        */
+        close(): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: number, y?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: any, y?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: number, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: any, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.MultiPath;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface MultiPathOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface MultiPathEvent {
+        sender: MultiPath;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class OptionsStore extends kendo.Class {
+
+
+        options: OptionsStoreOptions;
+
+        /**
+                An optional observer for the options store.Upon field modification, the optionsChange(e) method on the observer will be called
+with a single argument containing two fields:
+* field - The fully qualified field name
+* value - The new field value
+                */
+                observer: any;
+
+        constructor(options?: OptionsStoreOptions);
+
+
+        /**
+        Gets the value of the specified option.
+        @method
+        @param field - The field name to retrieve.
+Must be a fully qualified name (e.g. "foo.bar") for nested options.
+        @returns The current option value.
+        */
+        get(field: string): any;
+        /**
+        Sets the value of the specified option.
+        @method
+        @param field - The name of the option to set.
+Must be a fully qualified name (e.g. "foo.bar") for nested options.
+        @param value - The new option value.If the new value is exactly the same as the new value the operation
+will not trigger options change on the observer (if any).
+        */
+        set(field: string, value: any): void;
+
+    }
+
+    interface OptionsStoreOptions {
+        name?: string;
+    }
+    interface OptionsStoreEvent {
+        sender: OptionsStore;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface PDFOptions  {
+
+
+
+        /**
+                The creator of the PDF document.
+                */
+                creator?: string;
+        /**
+                The date when the PDF document is created. Defaults to new Date().
+                */
+                date?: Date;
+        /**
+                Specifies the keywords of the exported PDF file.
+                */
+                keywords?: string;
+        /**
+                Set to true to reverse the paper dimensions if needed such that width is the larger edge.
+                */
+                landscape?: boolean;
+        /**
+                Specifies the margins of the page (numbers or strings with units). Supported
+units are "mm", "cm", "in" and "pt" (default).
+                */
+                margin?: any;
+        /**
+                Specifies the paper size of the PDF document.
+The default "auto" means paper size is determined by content.Supported values:
+                */
+                paperSize?: any;
+        /**
+                Sets the subject of the PDF file.
+                */
+                subject?: string;
+        /**
+                Sets the title of the PDF file.
+                */
+                title?: string;
+
+
+
+
+    }
+
+
+
+    class Path extends kendo.drawing.Element {
+
+
+        options: PathOptions;
+
+        /**
+                A collection of the path segments.
+                */
+                segments: any;
+
+        constructor(options?: PathOptions);
+
+        static fromPoints(points: any): kendo.drawing.Path;
+        static fromRect(rect: kendo.geometry.Rect): kendo.drawing.Path;
+        static parse(svgPath: string, options?: any): kendo.drawing.Path;
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Closes the path by linking the current end point with the start point.
+        @method
+        @returns The current instance to allow chaining.
+        */
+        close(): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: number, y?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: any, y?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: number, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: any, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Path;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface PathOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface PathEvent {
+        sender: Path;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class RadialGradient extends kendo.drawing.Gradient {
+
+
+        options: RadialGradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: RadialGradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+Inherited from Gradient.addStop
+        @method
+        @param offset - 
+        @param color - The color of the stop.
+        @param opacity - The fill opacity.
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @returns The current radius of the gradient.
+        */
+        center(): kendo.geometry.Point;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        center(center: any): void;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        center(center: kendo.geometry.Point): void;
+        /**
+        Gets or sets the radius of the gradient.
+        @method
+        @returns The current radius of the gradient.
+        */
+        radius(): number;
+        /**
+        Gets or sets the radius of the gradient.
+        @method
+        @param value - The new radius of the gradient.
+        */
+        radius(value: number): void;
+        /**
+        Removes a color stop from the gradient.
+Inherited from Gradient.removeStop
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface RadialGradientOptions {
+        name?: string;
+        /**
+        The center of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        @member {any|kendo.geometry.Point}
+        */
+        center?: any|kendo.geometry.Point;
+        /**
+        The radius of the radial gradient relative to the shape bounding box.
+        @member {number}
+        */
+        radius?: number;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface RadialGradientEvent {
+        sender: RadialGradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Rect extends kendo.drawing.Element {
+
+
+        options: RectOptions;
+
+
+        constructor(geometry: kendo.geometry.Rect, options?: RectOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle geometry.
+        @method
+        @returns The current rectangle geometry.
+        */
+        geometry(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Rect): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Rect;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Rect;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface RectOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface RectEvent {
+        sender: Rect;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Segment extends kendo.Class {
+
+
+        options: SegmentOptions;
+
+
+        constructor(anchor: kendo.geometry.Point, controlIn: kendo.geometry.Point, controlOut: kendo.geometry.Point);
+
+
+        /**
+        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current anchor point.
+        */
+        anchor(): kendo.geometry.Point;
+        /**
+        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new anchor point.
+        */
+        anchor(value: kendo.geometry.Point): void;
+        /**
+        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current control point.
+        */
+        controlIn(): kendo.geometry.Point;
+        /**
+        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new control point.
+        */
+        controlIn(value: kendo.geometry.Point): void;
+        /**
+        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current control point.
+        */
+        controlOut(): kendo.geometry.Point;
+        /**
+        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new control point.
+        */
+        controlOut(value: kendo.geometry.Point): void;
+
+    }
+
+    interface SegmentOptions {
+        name?: string;
+    }
+    interface SegmentEvent {
+        sender: Segment;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface StrokeOptions  {
+
+
+
+        /**
+                The stroke color in any of the following formats.| Value          | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the stroke.
+                */
+                color?: string;
+        /**
+                The stroke dash type.| Value            |                                              | Description
+| ---              | :---:                                        | ---
+| dash           |               | a line consisting of dashes
+| dashDot        |           | a line consisting of a repeating pattern of dash-dot
+| dot            |                | a line consisting of dots
+| longDash       |          | a line consisting of a repeating pattern of long-dash
+| longDashDot    |      | a line consisting of a repeating pattern of long-dash dot
+| longDashDotDot |  | a line consisting of a repeating pattern of long-dash dot-dot
+| solid          |              | a solid line
+                */
+                dashType?: string;
+        /**
+                The stroke line cap style.| Value    |                                     | Description
+| ---      | :---:                               | ---
+| butt   |    | a flat edge with no cap
+| round  |   | a rounded cap
+| square |  | a square cap
+                */
+                lineCap?: string;
+        /**
+                The stroke line join style.| Value   |                                     | Description
+| ---     | :---:                               | ---
+| bevel |  | a beveled join
+| miter |  | a square join
+| round |  | a rounded join
+                */
+                lineJoin?: string;
+        /**
+                The stroke opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+                */
+                opacity?: number;
+        /**
+                The stroke width in pixels.
+                */
+                width?: number;
+
+
+
+
+    }
+
+
+
+    class Surface extends kendo.Observable {
+
+
+        options: SurfaceOptions;
+
+
+        constructor(options?: SurfaceOptions);
+
+        static create(element: JQuery, options?: any): kendo.drawing.Surface;
+        static create(element: Element, options?: any): kendo.drawing.Surface;
+
+        /**
+        Clears the drawing surface.
+        @method
+        */
+        clear(): void;
+        /**
+        Draws the element and its children on the surface.
+Existing elements will remain visible.
+        @method
+        @param element - The element to draw.
+        */
+        draw(element: kendo.drawing.Element): void;
+        /**
+        Returns the target drawing element of a DOM event.
+        @method
+        @param e - The original DOM or jQuery event object.
+        @returns The target drawing element, if any.
+        */
+        eventTarget(e: any): kendo.drawing.Element;
+        /**
+        Resizes the surface to match the size of the container.
+        @method
+        @param force - Whether to proceed with resizing even if the container dimensions have not changed.
+        */
+        resize(force?: boolean): void;
+
+    }
+
+    interface SurfaceOptions {
+        name?: string;
+        /**
+        The preferred type of surface to create.
+Supported types (case insensitive):
+- svg
+- canvas
+- vmlThis option will be ignored if not supported by the browser.
+See Supported Browsers
+        @member {string}
+        */
+        type?: string;
+        /**
+        The height of the surface element.
+By default the surface will expand to fill the height of the first positioned container.
+        @member {string}
+        */
+        height?: string;
+        /**
+        The width of the surface element.
+By default the surface will expand to fill the width of the first positioned container.
+        @member {string}
+        */
+        width?: string;
+        /**
+        Triggered when an element has been clicked.
+        */
+        click?(e: SurfaceClickEvent): void;
+        /**
+        Triggered when the mouse is moved over an element.
+        */
+        mouseenter?(e: SurfaceMouseenterEvent): void;
+        /**
+        Triggered when the mouse is leaves an element.
+        */
+        mouseleave?(e: SurfaceMouseleaveEvent): void;
+    }
+    interface SurfaceEvent {
+        sender: Surface;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+    interface SurfaceClickEvent extends SurfaceEvent {
+        /**
+        The clicked element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+    interface SurfaceMouseenterEvent extends SurfaceEvent {
+        /**
+        The target element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+    interface SurfaceMouseleaveEvent extends SurfaceEvent {
+        /**
+        The target element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+
+    class Text extends kendo.drawing.Element {
+
+
+        options: TextOptions;
+
+
+        constructor(content: string, position: kendo.geometry.Point, options?: TextOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the text content.
+        @method
+        @returns The current content of the text.
+        */
+        content(): string;
+        /**
+        Gets or sets the text content.
+        @method
+        @param value - The new text content to set.
+        */
+        content(value: string): void;
+        /**
+        Sets the text fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Text;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the position of the text upper left corner.
+        @method
+        @returns The current position of the text upper left corner.
+        */
+        position(): kendo.geometry.Point;
+        /**
+        Gets or sets the position of the text upper left corner.
+        @method
+        @param value - The new position of the text upper left corner.
+        */
+        position(value: kendo.geometry.Point): void;
+        /**
+        Sets the text stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Text;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface TextOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the text.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The font to use for rendering the text.
+Accepts the standard CSS font syntax.Examples of valid font values:
+* Size and family: "2em 'Open Sans', sans-serif"
+* Style, size and family: "italic 2em 'Open Sans', sans-serif"
+        @member {string}
+        */
+        font?: string;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the text.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface TextEvent {
+        sender: Text;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
 }
 declare module kendo.geometry {
     class Arc extends Observable {
@@ -1766,6 +4110,7 @@ The current instance elements are not altered.
                 */
                 y: number;
 
+        constructor(x: number, y: number);
 
         static create(x: number, y: number): kendo.geometry.Point;
         static create(x: any, y: number): kendo.geometry.Point;
@@ -2230,2036 +4575,6 @@ Negative values or values greater than 360 will be normalized.
 
 
 }
-declare module kendo.drawing {
-    class Arc extends kendo.drawing.Element {
-
-
-        options: ArcOptions;
-
-
-        constructor(geometry: kendo.geometry.Arc, options?: ArcOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the arc geometry.
-        @method
-        @returns The current arc geometry.
-        */
-        geometry(): kendo.geometry.Arc;
-        /**
-        Gets or sets the arc geometry.
-        @method
-        @param value - The new geometry to use.
-        */
-        geometry(value: kendo.geometry.Arc): void;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Arc;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Arc;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ArcOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ArcEvent {
-        sender: Arc;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Circle extends kendo.drawing.Element {
-
-
-        options: CircleOptions;
-
-
-        constructor(geometry: kendo.geometry.Circle, options?: CircleOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the circle geometry.
-        @method
-        @returns The current circle geometry.
-        */
-        geometry(): kendo.geometry.Circle;
-        /**
-        Gets or sets the circle geometry.
-        @method
-        @param value - The new geometry to use.
-        */
-        geometry(value: kendo.geometry.Circle): void;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Circle;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Circle;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface CircleOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface CircleEvent {
-        sender: Circle;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Element extends kendo.Class {
-
-
-        options: ElementOptions;
-
-
-        constructor(options?: ElementOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.This is the rectangle that will fit around the actual rendered element.
-        @method
-        @returns The bounding box of the element with clipping and transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the transformation of the element.
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ElementOptions {
-        name?: string;
-        /**
-        The clipping path for this element.The path instance will be monitored for changes.
-It can be replaced by calling the clip method.
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The element opacity.
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The transformation to apply to this element.
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ElementEvent {
-        sender: Element;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface FillOptions  {
-
-
-
-        /**
-                The fill color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-                */
-                color: string;
-        /**
-                The fill opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-                */
-                opacity: number;
-
-
-
-
-    }
-
-
-
-    class Gradient extends kendo.Class {
-
-
-        options: GradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: GradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-        @method
-        @param offset - The stop offset from the start of the element.
-Ranges from 0 (start of gradient) to 1 (end of gradient).
-        @param color - The color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-        @param opacity - The fill opacity.
-Ranges from 0 (completely transparent) to 1 (completely opaque).
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Removes a color stop from the gradient.
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface GradientOptions {
-        name?: string;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface GradientEvent {
-        sender: Gradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class GradientStop extends kendo.Class {
-
-
-        options: GradientStopOptions;
-
-
-        constructor(options?: GradientStopOptions);
-
-
-
-    }
-
-    interface GradientStopOptions {
-        name?: string;
-        /**
-        The stop offset from the start of the element.
-Ranges from 0 (start of gradient) to 1 (end of gradient).
-        @member {number}
-        */
-        offset?: number;
-        /**
-        The color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-        @member {string}
-        */
-        color?: string;
-        /**
-        The fill opacity.
-Ranges from 0 (completely transparent) to 1 (completely opaque).
-        @member {number}
-        */
-        opacity?: number;
-    }
-    interface GradientStopEvent {
-        sender: GradientStop;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Group extends kendo.drawing.Element {
-
-
-        options: GroupOptions;
-
-        /**
-                The children of this group.
-                */
-                children: any;
-
-        constructor(options?: GroupOptions);
-
-
-        /**
-        Appends the specified element as a last child of the group.
-        @method
-        @param element - The element to append. Multiple parameters are accepted.
-        */
-        append(element: kendo.drawing.Element): void;
-        /**
-        Removes all child elements from the group.
-        @method
-        */
-        clear(): void;
-        /**
-        Gets or sets the group clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current group clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the group clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The group clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @method
-        @returns The current group opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @method
-        @param opacity - The group opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Removes the specified element from the group.
-        @method
-        @param element - The element to remove.
-        */
-        remove(element: kendo.drawing.Element): void;
-        /**
-        Removes the child element at the specified position.
-        @method
-        @param index - The index at which the element currently resides.
-        */
-        removeAt(index: number): void;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface GroupOptions {
-        name?: string;
-        /**
-        The group clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        Page options to apply during PDF export.
-        @member {kendo.drawing.PDFOptions}
-        */
-        pdf?: kendo.drawing.PDFOptions;
-        /**
-        The transformation to apply to this group and its children.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the group and its children are visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface GroupEvent {
-        sender: Group;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Image extends kendo.drawing.Element {
-
-
-        options: ImageOptions;
-
-
-        constructor(src: string, rect: kendo.geometry.Rect);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacity
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacity
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the image source URL.
-        @method
-        @returns The current image source URL.
-        */
-        src(): string;
-        /**
-        Gets or sets the image source URL.
-        @method
-        @param value - The new source URL.
-        */
-        src(value: string): void;
-        /**
-        Gets or sets the rectangle defines the image position and size.
-        @method
-        @returns The current image rectangle.
-        */
-        rect(): kendo.geometry.Rect;
-        /**
-        Gets or sets the rectangle defines the image position and size.
-        @method
-        @param value - The new image rectangle.
-        */
-        rect(value: kendo.geometry.Rect): void;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ImageOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ImageEvent {
-        sender: Image;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Layout extends kendo.drawing.Group {
-
-
-        options: LayoutOptions;
-
-
-        constructor(rect: kendo.geometry.Rect, options?: LayoutOptions);
-
-
-        /**
-        Gets or sets the layout rectangle.
-        @method
-        @returns The current rectangle.
-        */
-        rect(): kendo.geometry.Rect;
-        /**
-        Gets or sets the layout rectangle.
-        @method
-        @param rect - The layout rectangle.
-        */
-        rect(rect: kendo.geometry.Rect): void;
-        /**
-        Arranges the elements based on the current options.
-        @method
-        */
-        reflow(): void;
-
-    }
-
-    interface LayoutOptions {
-        name?: string;
-        /**
-        Specifies the alignment of the content.
-        @member {string}
-        */
-        alignContent?: string;
-        /**
-        Specifies the alignment of the items based.
-        @member {string}
-        */
-        alignItems?: string;
-        /**
-        Specifies how should the content be justified.
-        @member {string}
-        */
-        justifyContent?: string;
-        /**
-        Specifies the distance between the lines for wrapped layout.
-        @member {number}
-        */
-        lineSpacing?: number;
-        /**
-        Specifies the distance between the elements.
-        @member {number}
-        */
-        spacing?: number;
-        /**
-        Specifies layout orientation. The supported values are:
-        @member {string}
-        */
-        orientation?: string;
-        /**
-        Specifies the behavior when the elements size exceeds the rectangle size. If set to true, the elements will be moved to the next "line". If set to false, the layout will be scaled so that the elements fit in the rectangle.
-        @member {boolean}
-        */
-        wrap?: boolean;
-    }
-    interface LayoutEvent {
-        sender: Layout;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class LinearGradient extends kendo.drawing.Gradient {
-
-
-        options: LinearGradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: LinearGradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-Inherited from Gradient.addStop
-        @method
-        @param offset - 
-        @param color - The color of the stop.
-        @param opacity - The fill opacity.
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @returns The current end point of the gradient.
-        */
-        end(): kendo.geometry.Point;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        end(end: any): void;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        end(end: kendo.geometry.Point): void;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @returns The current start point of the gradient.
-        */
-        start(): kendo.geometry.Point;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        start(start: any): void;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        start(start: kendo.geometry.Point): void;
-        /**
-        Removes a color stop from the gradient.
-Inherited from Gradient.removeStop
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface LinearGradientOptions {
-        name?: string;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface LinearGradientEvent {
-        sender: LinearGradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class MultiPath extends kendo.drawing.Element {
-
-
-        options: MultiPathOptions;
-
-        /**
-                A collection of sub-paths.
-                */
-                paths: any;
-
-        constructor(options?: MultiPathOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Closes the current sub-path by linking its current end point with its start point.
-        @method
-        @returns The current instance to allow chaining.
-        */
-        close(): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: any): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: kendo.geometry.Point): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: any): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point): kendo.drawing.MultiPath;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: number, y?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: any, y?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: number, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: any, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.MultiPath;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface MultiPathOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface MultiPathEvent {
-        sender: MultiPath;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class OptionsStore extends kendo.Class {
-
-
-        options: OptionsStoreOptions;
-
-        /**
-                An optional observer for the options store.Upon field modification, the optionsChange(e) method on the observer will be called
-with a single argument containing two fields:
-* field - The fully qualified field name
-* value - The new field value
-                */
-                observer: any;
-
-        constructor(options?: OptionsStoreOptions);
-
-
-        /**
-        Gets the value of the specified option.
-        @method
-        @param field - The field name to retrieve.
-Must be a fully qualified name (e.g. "foo.bar") for nested options.
-        @returns The current option value.
-        */
-        get(field: string): any;
-        /**
-        Sets the value of the specified option.
-        @method
-        @param field - The name of the option to set.
-Must be a fully qualified name (e.g. "foo.bar") for nested options.
-        @param value - The new option value.If the new value is exactly the same as the new value the operation
-will not trigger options change on the observer (if any).
-        */
-        set(field: string, value: any): void;
-
-    }
-
-    interface OptionsStoreOptions {
-        name?: string;
-    }
-    interface OptionsStoreEvent {
-        sender: OptionsStore;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface PDFOptions  {
-
-
-
-        /**
-                The creator of the PDF document.
-                */
-                creator: string;
-        /**
-                The date when the PDF document is created. Defaults to new Date().
-                */
-                date: Date;
-        /**
-                Specifies the keywords of the exported PDF file.
-                */
-                keywords: string;
-        /**
-                Set to true to reverse the paper dimensions if needed such that width is the larger edge.
-                */
-                landscape: boolean;
-        /**
-                Specifies the margins of the page (numbers or strings with units). Supported
-units are "mm", "cm", "in" and "pt" (default).
-                */
-                margin: any;
-        /**
-                Specifies the paper size of the PDF document.
-The default "auto" means paper size is determined by content.Supported values:
-                */
-                paperSize: any;
-        /**
-                Sets the subject of the PDF file.
-                */
-                subject: string;
-        /**
-                Sets the title of the PDF file.
-                */
-                title: string;
-
-
-
-
-    }
-
-
-
-    class Path extends kendo.drawing.Element {
-
-
-        options: PathOptions;
-
-        /**
-                A collection of the path segments.
-                */
-                segments: any;
-
-        constructor(options?: PathOptions);
-
-        static fromPoints(points: any): kendo.drawing.Path;
-        static fromRect(rect: kendo.geometry.Rect): kendo.drawing.Path;
-        static parse(svgPath: string, options?: any): kendo.drawing.Path;
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Closes the path by linking the current end point with the start point.
-        @method
-        @returns The current instance to allow chaining.
-        */
-        close(): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: any): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: kendo.geometry.Point): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: any): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point): kendo.drawing.Path;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: number, y?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: any, y?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: number, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: any, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Path;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface PathOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface PathEvent {
-        sender: Path;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class RadialGradient extends kendo.drawing.Gradient {
-
-
-        options: RadialGradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: RadialGradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-Inherited from Gradient.addStop
-        @method
-        @param offset - 
-        @param color - The color of the stop.
-        @param opacity - The fill opacity.
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @returns The current radius of the gradient.
-        */
-        center(): kendo.geometry.Point;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        center(center: any): void;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        center(center: kendo.geometry.Point): void;
-        /**
-        Gets or sets the radius of the gradient.
-        @method
-        @returns The current radius of the gradient.
-        */
-        radius(): number;
-        /**
-        Gets or sets the radius of the gradient.
-        @method
-        @param value - The new radius of the gradient.
-        */
-        radius(value: number): void;
-        /**
-        Removes a color stop from the gradient.
-Inherited from Gradient.removeStop
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface RadialGradientOptions {
-        name?: string;
-        /**
-        The center of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        @member {any}
-        */
-        center?: any;
-        /**
-        The radius of the radial gradient relative to the shape bounding box.
-        @member {number}
-        */
-        radius?: number;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface RadialGradientEvent {
-        sender: RadialGradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Segment extends kendo.Class {
-
-
-        options: SegmentOptions;
-
-
-        constructor(anchor: kendo.geometry.Point, controlIn: kendo.geometry.Point, controlOut: kendo.geometry.Point);
-
-
-        /**
-        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current anchor point.
-        */
-        anchor(): kendo.geometry.Point;
-        /**
-        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new anchor point.
-        */
-        anchor(value: kendo.geometry.Point): void;
-        /**
-        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current control point.
-        */
-        controlIn(): kendo.geometry.Point;
-        /**
-        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new control point.
-        */
-        controlIn(value: kendo.geometry.Point): void;
-        /**
-        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current control point.
-        */
-        controlOut(): kendo.geometry.Point;
-        /**
-        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new control point.
-        */
-        controlOut(value: kendo.geometry.Point): void;
-
-    }
-
-    interface SegmentOptions {
-        name?: string;
-    }
-    interface SegmentEvent {
-        sender: Segment;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface StrokeOptions  {
-
-
-
-        /**
-                The stroke color in any of the following formats.| Value          | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the stroke.
-                */
-                color: string;
-        /**
-                The stroke dash type.| Value            |                                              | Description
-| ---              | :---:                                        | ---
-| dash           |               | a line consisting of dashes
-| dashDot        |           | a line consisting of a repeating pattern of dash-dot
-| dot            |                | a line consisting of dots
-| longDash       |          | a line consisting of a repeating pattern of long-dash
-| longDashDot    |      | a line consisting of a repeating pattern of long-dash dot
-| longDashDotDot |  | a line consisting of a repeating pattern of long-dash dot-dot
-| solid          |              | a solid line
-                */
-                dashType: string;
-        /**
-                The stroke line cap style.| Value    |                                     | Description
-| ---      | :---:                               | ---
-| butt   |    | a flat edge with no cap
-| round  |   | a rounded cap
-| square |  | a square cap
-                */
-                lineCap: string;
-        /**
-                The stroke line join style.| Value   |                                     | Description
-| ---     | :---:                               | ---
-| bevel |  | a beveled join
-| miter |  | a square join
-| round |  | a rounded join
-                */
-                lineJoin: string;
-        /**
-                The stroke opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-                */
-                opacity: number;
-        /**
-                The stroke width in pixels.
-                */
-                width: number;
-
-
-
-
-    }
-
-
-
-    class Surface extends kendo.Observable {
-
-
-        options: SurfaceOptions;
-
-
-        constructor(options?: SurfaceOptions);
-
-        static create(element: JQuery, options?: any): kendo.drawing.Surface;
-        static create(element: Element, options?: any): kendo.drawing.Surface;
-
-        /**
-        Clears the drawing surface.
-        @method
-        */
-        clear(): void;
-        /**
-        Draws the element and its children on the surface.
-Existing elements will remain visible.
-        @method
-        @param element - The element to draw.
-        */
-        draw(element: kendo.drawing.Element): void;
-        /**
-        Returns the target drawing element of a DOM event.
-        @method
-        @param e - The original DOM or jQuery event object.
-        @returns The target drawing element, if any.
-        */
-        eventTarget(e: any): kendo.drawing.Element;
-        /**
-        Resizes the surface to match the size of the container.
-        @method
-        @param force - Whether to proceed with resizing even if the container dimensions have not changed.
-        */
-        resize(force?: boolean): void;
-
-    }
-
-    interface SurfaceOptions {
-        name?: string;
-        /**
-        The preferred type of surface to create.
-Supported types (case insensitive):
-- svg
-- canvas
-- vmlThis option will be ignored if not supported by the browser.
-See Supported Browsers
-        @member {string}
-        */
-        type?: string;
-        /**
-        The height of the surface element.
-By default the surface will expand to fill the height of the first positioned container.
-        @member {string}
-        */
-        height?: string;
-        /**
-        The width of the surface element.
-By default the surface will expand to fill the width of the first positioned container.
-        @member {string}
-        */
-        width?: string;
-        /**
-        Triggered when an element has been clicked.
-        */
-        click?(e: SurfaceClickEvent): void;
-        /**
-        Triggered when the mouse is moved over an element.
-        */
-        mouseenter?(e: SurfaceMouseenterEvent): void;
-        /**
-        Triggered when the mouse is leaves an element.
-        */
-        mouseleave?(e: SurfaceMouseleaveEvent): void;
-    }
-    interface SurfaceEvent {
-        sender: Surface;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-    interface SurfaceClickEvent extends SurfaceEvent {
-        /**
-        The clicked element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-    interface SurfaceMouseenterEvent extends SurfaceEvent {
-        /**
-        The target element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-    interface SurfaceMouseleaveEvent extends SurfaceEvent {
-        /**
-        The target element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-
-    class Text extends kendo.drawing.Element {
-
-
-        options: TextOptions;
-
-
-        constructor(content: string, position: kendo.geometry.Point, options?: TextOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the text content.
-        @method
-        @returns The current content of the text.
-        */
-        content(): string;
-        /**
-        Gets or sets the text content.
-        @method
-        @param value - The new text content to set.
-        */
-        content(value: string): void;
-        /**
-        Sets the text fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Text;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the position of the text upper left corner.
-        @method
-        @returns The current position of the text upper left corner.
-        */
-        position(): kendo.geometry.Point;
-        /**
-        Gets or sets the position of the text upper left corner.
-        @method
-        @param value - The new position of the text upper left corner.
-        */
-        position(value: kendo.geometry.Point): void;
-        /**
-        Sets the text stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Text;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface TextOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the text.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The font to use for rendering the text.
-Accepts the standard CSS font syntax.Examples of valid font values:
-* Size and family: "2em 'Open Sans', sans-serif"
-* Style, size and family: "italic 2em 'Open Sans', sans-serif"
-        @member {string}
-        */
-        font?: string;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the text.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface TextEvent {
-        sender: Text;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-}
 declare module kendo {
     class Color extends Observable {
 
@@ -4281,6 +4596,53 @@ declare module kendo {
         @returns returns true if the two colors are the same. Otherwise, false
         */
         equals(): boolean;
+        /**
+        Returns the color in HSV representation.  As HSV object, it has the
+following properties:This does not modify the current object, it creates a new one instead.
+        @method
+        @returns An object with h, s, v and a fields.
+        */
+        toHSV(): any;
+        /**
+        Returns the color in RGB representation.  The result has the following
+properties:This does not modify the current object, it creates a new one instead.
+        @method
+        @returns An object with r, g, b and a fields.
+        */
+        toRGB(): any;
+        /**
+        Returns the color in "Bytes" representation.  It has the same properties as
+RGB, but r, g and b are integers between 0 and 255 instead of floats.This does not modify the current object, it creates a new one instead.
+        @method
+        @returns An object with r, g and b fields.
+        */
+        toBytes(): any;
+        /**
+        Returns a string in "FF0000" form (without a leading #).
+        @method
+        @returns The color in hex notation.
+        */
+        toHex(): string;
+        /**
+        Like toHex, but includes a leading #.
+        @method
+        @returns The color in CSS notation.
+        */
+        toCss(): string;
+        /**
+        Returns the color in RGBA notation (includes the opacity).
+        @method
+        @returns The color in RGBA notation.
+        */
+        toCssRgba(): string;
+        /**
+        Returns the color in the best notation supported by the current browser.  In
+IE < 9 this returns the #FF0000 form; in all other browsers it returns the
+RGBA form.
+        @method
+        @returns The color in the best notation supported by the current browser.
+        */
+        toDisplay(): string;
 
     }
 
@@ -4307,11 +4669,12 @@ declare module kendo {
         Converts the given DOM element to a Drawing API scene.The operation is asynchronous and returns a promise.The promise will be resolved with the root Group of the scene.
         @method
         @param element - The root DOM element to draw.
+        @param options - Configuration options
         @returns A promise that will be resolved with the root Group of the scene.
         */
-        drawDOM(element: JQuery): JQueryPromise<any>;
+        drawDOM(element: JQuery, options: any): JQueryPromise<any>;
         function /**
-        Exports a group of drawing elements as an image.The export operation is asynchronous and returns a promise.The promise will be resolved with a PNG image encoded as a Data URI.
+        Exports a group of drawing elements as an image.The group will be positioned at [0, 0] in the exported image. It's dimensions will be used as default dimensions for the image.The export operation is asynchronous and returns a promise.The promise will be resolved with a PNG image encoded as a Data URI.
         @method
         @param group - The root group containing all elements to export.
         @param options - Parameters for the exported image.
@@ -4319,7 +4682,7 @@ declare module kendo {
         */
         exportImage(group: kendo.drawing.Group, options: any): JQueryPromise<any>;
         function /**
-        Exports a group of drawing elements as a PDF file.The export operation is asynchronous and returns a promise.The promise will be resolved with a PDF file encoded as a Data URI.
+        Exports a group of drawing elements as a PDF file.The group will be positioned at [0, 0] in the exported file. It's dimensions will be used as default dimensions for the image.The export operation is asynchronous and returns a promise.The promise will be resolved with a PDF file encoded as a Data URI.
         @method
         @param group - The root group containing all elements to export.
         @param options - Parameters for the exported PDF file.
@@ -4327,7 +4690,7 @@ declare module kendo {
         */
         exportPDF(group: kendo.drawing.Group, options: kendo.drawing.PDFOptions): JQueryPromise<any>;
         function /**
-        Exports a group of drawing elements as an SVG document.The export operation is asynchronous and returns a promise.The promise will be resolved with a SVG document encoded as a Data URI.
+        Exports a group of drawing elements as an SVG document.The group will be positioned at [0, 0] in the exported file. It's dimensions will be used as default dimensions for the image.The export operation is asynchronous and returns a promise.The promise will be resolved with a SVG document encoded as a Data URI.
         @method
         @param group - The root group containing all elements to export.
         @param options - Export options.
@@ -4422,7 +4785,7 @@ found on the page.These include tokens used by ASP.NET, Ruby on Rails and others
         */
         antiForgeryTokens(): any;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4433,7 +4796,7 @@ kendo.ui will be used. Multiple namespaces can be passed.
         */
         bind(element: string, viewModel: any, namespace?: any): void;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4444,7 +4807,7 @@ kendo.ui will be used. Multiple namespaces can be passed.
         */
         bind(element: string, viewModel: kendo.data.ObservableObject, namespace?: any): void;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4455,7 +4818,7 @@ kendo.ui will be used. Multiple namespaces can be passed.
         */
         bind(element: JQuery, viewModel: any, namespace?: any): void;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4466,7 +4829,7 @@ kendo.ui will be used. Multiple namespaces can be passed.
         */
         bind(element: JQuery, viewModel: kendo.data.ObservableObject, namespace?: any): void;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4477,7 +4840,7 @@ kendo.ui will be used. Multiple namespaces can be passed.
         */
         bind(element: Element, viewModel: any, namespace?: any): void;
         function /**
-        Binds a HTML View to a View-Model.Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
+        Binds a HTML View to a View-Model and initializes Kendo UI widgets from DOM elements based on data-role attributes, similar to kendo.init().Model View ViewModel (MVVM) is a design pattern which helps developers separate the Model from the View. The View-Model part of MVVM is responsible for
 exposing the data objects from the Model in such a way that those objects are easily consumed in the View.
         @method
         @param element - The root element(s) from which the binding starts. Can be a valid jQuery string selector, a DOM element or a jQuery object.
@@ -4527,7 +4890,7 @@ If no culture is found the default one is used.
         */
         htmlEncode(value: string): string;
         function /**
-        Parses as a formatted string as a Date.
+        Parses as a formatted string as a Date. Also see Date Parsing
         @method
         @param value - The string which should be parsed as Date.
         @param formats - The format(s) that will be used to parse the date. By default all standard date formats of the current culture are used.
@@ -4536,7 +4899,7 @@ If no culture is found the default one is used.
         */
         parseDate(value: string, formats?: string, culture?: string): Date;
         function /**
-        Parses as a formatted string as a Date.
+        Parses as a formatted string as a Date. Also see Date Parsing
         @method
         @param value - The string which should be parsed as Date.
         @param formats - The format(s) that will be used to parse the date. By default all standard date formats of the current culture are used.
@@ -4568,6 +4931,17 @@ If no culture is found the default one is used.
         @returns A Color object.
         */
         parseColor(color: string, noerror: boolean): kendo.Color;
+        function /**
+        Creates a wrapper object over the passed one, with get/set properties that set the original object dirty flag. Suitable for a scenario where a dataSource item is used in a third-party MVVM implementation, like AngularJS.
+        @method
+        */
+        proxyModelSetters(): void;
+        function /**
+        Creates a wrapper object over the passed one, with get/set properties that set the original object dirty flag. Suitable for a scenario where a dataSource item is used in a third-party MVVM implementation, like AngularJS.
+        @method
+        @param data - The model that will be wrapped.
+        */
+        proxyModelSetters(data: kendo.data.Model): void;
         function /**
         Finds all Kendo widgets that are children of the specified element and calls their resize method.
         @method
@@ -4668,6 +5042,17 @@ All descendant elements are traversed.
         */
         unbind(element: Element): void;
 
+    module pdf {
+        function /**
+        Defines a map with locations for TrueType Font (.ttf) files.The exportPDF method will use the font files when embedding them in a PDF document.
+As a fallback, fonts might be loaded from the locations listed in a style sheet font-face declarations.
+This will work only if the style sheet and fonts are loaded from the same domain.It's safe to call this method multiple times.
+        @method
+        @param map - A map for font names, variants and the location of its .ttf file.
+        */
+        defineFont(map: any): void;
+    }
+
 }
 declare module kendo.mobile.ui {
     class ActionSheet extends kendo.mobile.ui.Widget {
@@ -4708,19 +5093,19 @@ declare module kendo.mobile.ui {
     interface ActionSheetPopup {
         /**
         The direction to which the popup will expand, relative to the target that opened it.
-        @member {any}
+        @member {number|string}
         */
-        direction?: any;
+        direction?: number|string;
         /**
         The height of the popup in pixels.
-        @member {any}
+        @member {number|string}
         */
-        height?: any;
+        height?: number|string;
         /**
         The width of the popup in pixels.
-        @member {any}
+        @member {number|string}
         */
-        width?: any;
+        width?: number|string;
     }
 
     interface ActionSheetOptions {
@@ -5495,9 +5880,9 @@ If this is not case the field must be defined.
         autoBind?: boolean;
         /**
         Instance of DataSource or the data that the mobile ListView will be bound to.
-        @member {any}
+        @member {kendo.data.DataSource|any}
         */
-        dataSource?: any;
+        dataSource?: kendo.data.DataSource|any;
         /**
         If set to true, the listview gets the next page of data when the user scrolls near the bottom of the view.
         @member {boolean}
@@ -5511,9 +5896,9 @@ Applicable only when the type is set to group, or when binding to grouped DataSo
         fixedHeaders?: boolean;
         /**
         The header item template (applicable when the type is set to group).
-        @member {any}
+        @member {string|Function}
         */
-        headerTemplate?: any;
+        headerTemplate?: string|Function;
         /**
         If set to true, a button is rendered at the bottom of the listview. Tapping it fetches and displays the items from the next page of the DataSource.
         @member {boolean}
@@ -5542,9 +5927,9 @@ Previously loaded pages in the DataSource are also discarded.
         style?: string;
         /**
         The item template.
-        @member {any}
+        @member {string|Function}
         */
-        template?: any;
+        template?: string|Function;
         /**
         The type of the control. Can be either flat (default) or group. Determined automatically in databound mode.
         @member {string}
@@ -5674,9 +6059,9 @@ Note: The dataItem must be from a non-primitive type (Object).
         /**
         Open the ModalView
         @method
-        @param target - (optional) The target of the ModalView
+        @param target - The target of the ModalView
         */
-        open(target: JQuery): void;
+        open(target?: JQuery): void;
 
     }
 
@@ -5822,11 +6207,6 @@ Note: The dataItem must be from a non-primitive type (Object).
         */
         replace(url: string, transition: string): void;
         /**
-        
-        @method
-        */
-        Example(): void;
-        /**
         Show the loading animation.
         @method
         */
@@ -5964,14 +6344,14 @@ Note: The dataItem must be from a non-primitive type (Object).
     interface PopOverPopup {
         /**
         The height of the popup in pixels.
-        @member {any}
+        @member {number|string}
         */
-        height?: any;
+        height?: number|string;
         /**
         The width of the popup in pixels.
-        @member {any}
+        @member {number|string}
         */
-        width?: any;
+        width?: number|string;
     }
 
     interface PopOverOptions {
@@ -6098,14 +6478,14 @@ Note: The dataItem must be from a non-primitive type (Object).
         bounceVelocityThreshold?: number;
         /**
         The height of the ScrollView content. Supports 100% if the ScrollView is embedded in a stretched view and the ScrollView element is an immediate child of the view element.
-        @member {any}
+        @member {number|string}
         */
-        contentHeight?: any;
+        contentHeight?: number|string;
         /**
         Instance of DataSource that the mobile ScrollView will be bound to. If DataSource is set, the widget will operate in data bound mode.
-        @member {any}
+        @member {kendo.data.DataSource|any}
         */
-        dataSource?: any;
+        dataSource?: kendo.data.DataSource|any;
         /**
         The milliseconds that take the ScrollView to snap to the current page after released.
         @member {number}
@@ -6232,6 +6612,11 @@ Note: The dataItem must be from a non-primitive type (Object).
         @param y - The vertical offset in pixels to scroll to.
         */
         animatedScrollTo(x: number, y: number): void;
+        /**
+        Updates the scroller dimensions. Should be called after the contents of the scroller update their size
+        @method
+        */
+        contentResized(): void;
         /**
         Prepares the Scroller for safe removal from DOM. Detaches all event handlers and removes jQuery.data attributes to avoid memory leaks. Calls destroy method of any child Kendo widgets.
         @method
@@ -7170,6 +7555,12 @@ declare module kendo.ooxml {
         */
         autoWidth?: boolean;
         /**
+        The zero-based index of the column in the sheet.
+Defaults to the index of the object in the array.
+        @member {number}
+        */
+        index?: number;
+        /**
         The width of the column in pixels.
         @member {number}
         */
@@ -7191,15 +7582,69 @@ declare module kendo.ooxml {
 
     interface WorkbookSheetFreezePane {
         /**
-        Number of columns to freeze from the left.
+        Deprecated in versions 2015.3 and newer. Use
+frozenColumns instead.
         @member {number}
         */
         colSplit?: number;
         /**
-        Number of rows to freeze from the top.
+        Deprecated in versions 2015.3 and newer. Use
+frozenRows instead.
         @member {number}
         */
         rowSplit?: number;
+    }
+
+    interface WorkbookSheetRowCellBorderBottom {
+        /**
+        The bottom border color of the cell.Many standard CSS formats are supported, but the canonical form is "#ccff00".
+        @member {string}
+        */
+        color?: string;
+        /**
+        The width of the border in pixels.
+        @member {string}
+        */
+        size?: string;
+    }
+
+    interface WorkbookSheetRowCellBorderLeft {
+        /**
+        The left border color of the cell.Many standard CSS formats are supported, but the canonical form is "#ccff00".
+        @member {string}
+        */
+        color?: string;
+        /**
+        The width of the border in pixels.
+        @member {string}
+        */
+        size?: string;
+    }
+
+    interface WorkbookSheetRowCellBorderRight {
+        /**
+        The right border color of the cell.Many standard CSS formats are supported, but the canonical form is "#ccff00".
+        @member {string}
+        */
+        color?: string;
+        /**
+        The width of the border in pixels.
+        @member {string}
+        */
+        size?: string;
+    }
+
+    interface WorkbookSheetRowCellBorderTop {
+        /**
+        The top border color of the cell.Many standard CSS formats are supported, but the canonical form is "#ccff00".
+        @member {string}
+        */
+        color?: string;
+        /**
+        The width of the border in pixels.
+        @member {string}
+        */
+        size?: string;
     }
 
     interface WorkbookSheetRowCell {
@@ -7208,6 +7653,26 @@ declare module kendo.ooxml {
         @member {string}
         */
         background?: string;
+        /**
+        The style information for the bottom border of the cell.
+        @member {WorkbookSheetRowCellBorderBottom}
+        */
+        borderBottom?: WorkbookSheetRowCellBorderBottom;
+        /**
+        The style information for the left border of the cell.
+        @member {WorkbookSheetRowCellBorderLeft}
+        */
+        borderLeft?: WorkbookSheetRowCellBorderLeft;
+        /**
+        The style information for the top border of the cell.
+        @member {WorkbookSheetRowCellBorderTop}
+        */
+        borderTop?: WorkbookSheetRowCellBorderTop;
+        /**
+        The style information for the right border of the cell.
+        @member {WorkbookSheetRowCellBorderRight}
+        */
+        borderRight?: WorkbookSheetRowCellBorderRight;
         /**
         Setting it to true makes the cell value bold.
         @member {boolean}
@@ -7227,6 +7692,11 @@ declare module kendo.ooxml {
         Sets the font used to display the cell value.
         @member {string}
         */
+        fontFamily?: string;
+        /**
+        Deprecated in versions 2015.3 and newer. Use fontFamily instead.
+        @member {string}
+        */
         fontName?: string;
         /**
         Sets the font size in pixels.
@@ -7239,10 +7709,20 @@ declare module kendo.ooxml {
         */
         format?: string;
         /**
-        Sets the horizontal alignment of the cell value. Supported values are "left", "center" and "right".
+        Sets the formula that Excel uses to compute and display the cell value
+        @member {string}
+        */
+        formula?: string;
+        /**
+        Deprecated in versions 2015.3 and newer. Use textAlign instead.
         @member {string}
         */
         hAlign?: string;
+        /**
+        The zero-based index of the cell in the row.
+        @member {any}
+        */
+        index?: any;
         /**
         Setting it to true italicizes the cell value.
         @member {boolean}
@@ -7254,6 +7734,11 @@ declare module kendo.ooxml {
         */
         rowSpan?: number;
         /**
+        Sets the horizontal alignment of the cell value. Supported values are "left", "center" and "right".
+        @member {string}
+        */
+        textAlign?: string;
+        /**
         Setting it to true underlines the cell value.
         @member {boolean}
         */
@@ -7264,36 +7749,69 @@ declare module kendo.ooxml {
         */
         wrap?: boolean;
         /**
-        Sets the vertical alignment of the cell value. Supported values are "top", "center" and "bottom".
+        Deprecated in versions 2015.3 and newer. Use verticalAlign instead.
         @member {string}
         */
         vAlign?: string;
         /**
-        The value of the cell. Numbers and dates will be formatted as strings. String values are HTML encoded.
-        @member {any}
+        Sets the vertical alignment of the cell value. Supported values are "top", "center" and "bottom".
+        @member {string}
         */
-        value?: any;
+        verticalAlign?: string;
+        /**
+        The value of the cell. Numbers and dates will be formatted as strings. String values are HTML encoded.
+        @member {Date|number|string|boolean}
+        */
+        value?: Date|number|string|boolean;
     }
 
     interface WorkbookSheetRow {
         cells?: WorkbookSheetRowCell[];
+        /**
+        The zero-based index of the row in the sheet.
+Defaults to the index of the object in the array.
+        @member {number}
+        */
+        index?: number;
+        /**
+        The row height in pixels.
+        @member {number}
+        */
+        height?: number;
     }
 
     interface WorkbookSheet {
         columns?: WorkbookSheetColumn[];
         /**
-        Frozen rows and columns configuration.
+        Deprecated in versions 2015.3 and newer. Use
+frozenColumns and
+frozenRows instead.
         @member {WorkbookSheetFreezePane}
         */
         freezePane?: WorkbookSheetFreezePane;
+        /**
+        The number of frozen columns in this sheet.
+        @member {number}
+        */
+        frozenColumns?: number;
+        /**
+        The number of frozen rows in this sheet.
+        @member {number}
+        */
+        frozenRows?: number;
         /**
         Excel auto filter configuration. When set the final document will have auto filtering enabled.
         @member {WorkbookSheetFilter}
         */
         filter?: WorkbookSheetFilter;
+        /**
+        Sets the name of the exported workbook sheet.
+        @member {string}
+        */
+        name?: string;
         rows?: WorkbookSheetRow[];
         /**
-        Sets the title of the exported workbook sheet.
+        Deprecated in versions 2015.3 and newer. Use name instead.
         @member {string}
         */
         title?: string;
@@ -7322,6 +7840,2331 @@ declare module kendo.ooxml {
 
 }
 
+declare module kendo.dataviz.drawing {
+    class Arc extends kendo.drawing.Element {
+
+
+        options: ArcOptions;
+
+
+        constructor(geometry: kendo.geometry.Arc, options?: ArcOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the arc geometry.
+        @method
+        @returns The current arc geometry.
+        */
+        geometry(): kendo.geometry.Arc;
+        /**
+        Gets or sets the arc geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Arc): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Arc;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Arc;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ArcOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ArcEvent {
+        sender: Arc;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Circle extends kendo.drawing.Element {
+
+
+        options: CircleOptions;
+
+
+        constructor(geometry: kendo.geometry.Circle, options?: CircleOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the circle geometry.
+        @method
+        @returns The current circle geometry.
+        */
+        geometry(): kendo.geometry.Circle;
+        /**
+        Gets or sets the circle geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Circle): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Circle;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Circle;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface CircleOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface CircleEvent {
+        sender: Circle;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Element extends kendo.Class {
+
+
+        options: ElementOptions;
+
+
+        constructor(options?: ElementOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.This is the rectangle that will fit around the actual rendered element.
+        @method
+        @returns The bounding box of the element with clipping and transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the transformation of the element.
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ElementOptions {
+        name?: string;
+        /**
+        The clipping path for this element.The path instance will be monitored for changes.
+It can be replaced by calling the clip method.
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element CSS cursor.Applicable to SVG and VML outputs.
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The element opacity.
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The transformation to apply to this element.
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ElementEvent {
+        sender: Element;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface FillOptions  {
+
+
+
+        /**
+                The fill color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+                */
+                color?: string;
+        /**
+                The fill opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+                */
+                opacity?: number;
+
+
+
+
+    }
+
+
+
+    class Gradient extends kendo.Class {
+
+
+        options: GradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: GradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+        @method
+        @param offset - The stop offset from the start of the element.
+Ranges from 0 (start of gradient) to 1 (end of gradient).
+        @param color - The color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+        @param opacity - The fill opacity.
+Ranges from 0 (completely transparent) to 1 (completely opaque).
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Removes a color stop from the gradient.
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface GradientOptions {
+        name?: string;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface GradientEvent {
+        sender: Gradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class GradientStop extends kendo.Class {
+
+
+        options: GradientStopOptions;
+
+
+        constructor(options?: GradientStopOptions);
+
+
+
+    }
+
+    interface GradientStopOptions {
+        name?: string;
+        /**
+        The stop offset from the start of the element.
+Ranges from 0 (start of gradient) to 1 (end of gradient).
+        @member {number}
+        */
+        offset?: number;
+        /**
+        The color in any of the following formats.| Format         | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
+        @member {string}
+        */
+        color?: string;
+        /**
+        The fill opacity.
+Ranges from 0 (completely transparent) to 1 (completely opaque).
+        @member {number}
+        */
+        opacity?: number;
+    }
+    interface GradientStopEvent {
+        sender: GradientStop;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Group extends kendo.drawing.Element {
+
+
+        options: GroupOptions;
+
+        /**
+                The children of this group.
+                */
+                children: any;
+
+        constructor(options?: GroupOptions);
+
+
+        /**
+        Appends the specified element as a last child of the group.
+        @method
+        @param element - The element to append. Multiple parameters are accepted.
+        */
+        append(element: kendo.drawing.Element): void;
+        /**
+        Removes all child elements from the group.
+        @method
+        */
+        clear(): void;
+        /**
+        Gets or sets the group clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current group clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the group clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The group clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Inserts an element at the specified position.
+        @method
+        @param position - The position to insert the element at. Existing children beyond this position will be shifted right.
+        @param element - The element to insert.
+        */
+        insert(position: number, element: kendo.drawing.Element): void;
+        /**
+        Gets or sets the group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @method
+        @returns The current group opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @method
+        @param opacity - The group opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Removes the specified element from the group.
+        @method
+        @param element - The element to remove.
+        */
+        remove(element: kendo.drawing.Element): void;
+        /**
+        Removes the child element at the specified position.
+        @method
+        @param index - The index at which the element currently resides.
+        */
+        removeAt(index: number): void;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface GroupOptions {
+        name?: string;
+        /**
+        The group clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The group cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The group opacity.
+Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        Page options to apply during PDF export.
+        @member {kendo.drawing.PDFOptions}
+        */
+        pdf?: kendo.drawing.PDFOptions;
+        /**
+        The transformation to apply to this group and its children.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the group and its children are visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface GroupEvent {
+        sender: Group;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Image extends kendo.drawing.Element {
+
+
+        options: ImageOptions;
+
+
+        constructor(src: string, rect: kendo.geometry.Rect);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacity
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacity
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the image source URL.
+        @method
+        @returns The current image source URL.
+        */
+        src(): string;
+        /**
+        Gets or sets the image source URL.
+        @method
+        @param value - The new source URL.
+        */
+        src(value: string): void;
+        /**
+        Gets or sets the rectangle defines the image position and size.
+        @method
+        @returns The current image rectangle.
+        */
+        rect(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle defines the image position and size.
+        @method
+        @param value - The new image rectangle.
+        */
+        rect(value: kendo.geometry.Rect): void;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface ImageOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface ImageEvent {
+        sender: Image;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Layout extends kendo.drawing.Group {
+
+
+        options: LayoutOptions;
+
+
+        constructor(rect: kendo.geometry.Rect, options?: LayoutOptions);
+
+
+        /**
+        Gets or sets the layout rectangle.
+        @method
+        @returns The current rectangle.
+        */
+        rect(): kendo.geometry.Rect;
+        /**
+        Gets or sets the layout rectangle.
+        @method
+        @param rect - The layout rectangle.
+        */
+        rect(rect: kendo.geometry.Rect): void;
+        /**
+        Arranges the elements based on the current options.
+        @method
+        */
+        reflow(): void;
+
+    }
+
+    interface LayoutOptions {
+        name?: string;
+        /**
+        Specifies the alignment of the content. The supported values are:
+        @member {string}
+        */
+        alignContent?: string;
+        /**
+        Specifies the alignment of the items based on the largest one. The supported values are:
+        @member {string}
+        */
+        alignItems?: string;
+        /**
+        Specifies how should the content be justified. The supported values are:
+        @member {string}
+        */
+        justifyContent?: string;
+        /**
+        Specifies the distance between the lines for wrapped layout.
+        @member {number}
+        */
+        lineSpacing?: number;
+        /**
+        Specifies the distance between the elements.
+        @member {number}
+        */
+        spacing?: number;
+        /**
+        Specifies layout orientation. The supported values are:
+        @member {string}
+        */
+        orientation?: string;
+        /**
+        Specifies the behavior when the elements size exceeds the rectangle size. If set to true, the elements will be moved to the next "line". If set to false, the layout will be scaled so that the elements fit in the rectangle.
+        @member {boolean}
+        */
+        wrap?: boolean;
+    }
+    interface LayoutEvent {
+        sender: Layout;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class LinearGradient extends kendo.drawing.Gradient {
+
+
+        options: LinearGradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: LinearGradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+Inherited from Gradient.addStop
+        @method
+        @param offset - 
+        @param color - The color of the stop.
+        @param opacity - The fill opacity.
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @returns The current end point of the gradient.
+        */
+        end(): kendo.geometry.Point;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        end(end: any): void;
+        /**
+        Gets or sets the end point of the gradient.
+        @method
+        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        end(end: kendo.geometry.Point): void;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @returns The current start point of the gradient.
+        */
+        start(): kendo.geometry.Point;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        start(start: any): void;
+        /**
+        Gets or sets the start point of the gradient.
+        @method
+        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        start(start: kendo.geometry.Point): void;
+        /**
+        Removes a color stop from the gradient.
+Inherited from Gradient.removeStop
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface LinearGradientOptions {
+        name?: string;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface LinearGradientEvent {
+        sender: LinearGradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class MultiPath extends kendo.drawing.Element {
+
+
+        options: MultiPathOptions;
+
+        /**
+                A collection of sub-paths.
+                */
+                paths: any;
+
+        constructor(options?: MultiPathOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Closes the current sub-path by linking its current end point with its start point.
+        @method
+        @returns The current instance to allow chaining.
+        */
+        close(): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.MultiPath;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.MultiPath;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: number, y?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: any, y?: number): kendo.drawing.MultiPath;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: number, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: any, y?: number): kendo.drawing.MultiPath;
+        /**
+        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.MultiPath;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface MultiPathOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface MultiPathEvent {
+        sender: MultiPath;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class OptionsStore extends kendo.Class {
+
+
+        options: OptionsStoreOptions;
+
+        /**
+                An optional observer for the options store.Upon field modification, the optionsChange(e) method on the observer will be called
+with a single argument containing two fields:
+* field - The fully qualified field name
+* value - The new field value
+                */
+                observer: any;
+
+        constructor(options?: OptionsStoreOptions);
+
+
+        /**
+        Gets the value of the specified option.
+        @method
+        @param field - The field name to retrieve.
+Must be a fully qualified name (e.g. "foo.bar") for nested options.
+        @returns The current option value.
+        */
+        get(field: string): any;
+        /**
+        Sets the value of the specified option.
+        @method
+        @param field - The name of the option to set.
+Must be a fully qualified name (e.g. "foo.bar") for nested options.
+        @param value - The new option value.If the new value is exactly the same as the new value the operation
+will not trigger options change on the observer (if any).
+        */
+        set(field: string, value: any): void;
+
+    }
+
+    interface OptionsStoreOptions {
+        name?: string;
+    }
+    interface OptionsStoreEvent {
+        sender: OptionsStore;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface PDFOptions  {
+
+
+
+        /**
+                The creator of the PDF document.
+                */
+                creator?: string;
+        /**
+                The date when the PDF document is created. Defaults to new Date().
+                */
+                date?: Date;
+        /**
+                Specifies the keywords of the exported PDF file.
+                */
+                keywords?: string;
+        /**
+                Set to true to reverse the paper dimensions if needed such that width is the larger edge.
+                */
+                landscape?: boolean;
+        /**
+                Specifies the margins of the page (numbers or strings with units). Supported
+units are "mm", "cm", "in" and "pt" (default).
+                */
+                margin?: any;
+        /**
+                Specifies the paper size of the PDF document.
+The default "auto" means paper size is determined by content.Supported values:
+                */
+                paperSize?: any;
+        /**
+                Sets the subject of the PDF file.
+                */
+                subject?: string;
+        /**
+                Sets the title of the PDF file.
+                */
+                title?: string;
+
+
+
+
+    }
+
+
+
+    class Path extends kendo.drawing.Element {
+
+
+        options: PathOptions;
+
+        /**
+                A collection of the path segments.
+                */
+                segments: any;
+
+        constructor(options?: PathOptions);
+
+        static fromPoints(points: any): kendo.drawing.Path;
+        static fromRect(rect: kendo.geometry.Rect): kendo.drawing.Path;
+        static parse(svgPath: string, options?: any): kendo.drawing.Path;
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Closes the path by linking the current end point with the start point.
+        @method
+        @returns The current instance to allow chaining.
+        */
+        close(): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: any, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: any, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: any): kendo.drawing.Path;
+        /**
+        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
+        @method
+        @param controlOut - The first control point for the curve.
+        @param controlIn - The second control point for the curve.
+        @param endPoint - The curve end point.
+        @returns The current instance to allow chaining.
+        */
+        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point, endPoint: kendo.geometry.Point): kendo.drawing.Path;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: number, y?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: any, y?: number): kendo.drawing.Path;
+        /**
+        Draws a straight line to the specified absolute coordinates.
+        @method
+        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: number, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: any, y?: number): kendo.drawing.Path;
+        /**
+        Clears all existing segments and moves the starting point to the specified absolute coordinates.
+        @method
+        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
+        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
+        @returns The current instance to allow chaining.
+        */
+        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Path;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface PathOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface PathEvent {
+        sender: Path;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class RadialGradient extends kendo.drawing.Gradient {
+
+
+        options: RadialGradientOptions;
+
+        /**
+                The array of gradient color stops.
+Contains GradientStop instances.
+                */
+                stops: any;
+
+        constructor(options?: RadialGradientOptions);
+
+
+        /**
+        Adds a color stop to the gradient.
+Inherited from Gradient.addStop
+        @method
+        @param offset - 
+        @param color - The color of the stop.
+        @param opacity - The fill opacity.
+        @returns The new gradient color stop.
+        */
+        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @returns The current radius of the gradient.
+        */
+        center(): kendo.geometry.Point;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        center(center: any): void;
+        /**
+        Gets or sets the center point of the gradient.
+        @method
+        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        */
+        center(center: kendo.geometry.Point): void;
+        /**
+        Gets or sets the radius of the gradient.
+        @method
+        @returns The current radius of the gradient.
+        */
+        radius(): number;
+        /**
+        Gets or sets the radius of the gradient.
+        @method
+        @param value - The new radius of the gradient.
+        */
+        radius(value: number): void;
+        /**
+        Removes a color stop from the gradient.
+Inherited from Gradient.removeStop
+        @method
+        @param stop - The gradient color stop to remove.
+        */
+        removeStop(stop: kendo.drawing.GradientStop): void;
+
+    }
+
+    interface RadialGradientOptions {
+        name?: string;
+        /**
+        The center of the gradient.Coordinates are relative to the shape bounding box.
+For example [0, 0] is top left and [1, 1] is bottom right.
+        @member {any|kendo.geometry.Point}
+        */
+        center?: any|kendo.geometry.Point;
+        /**
+        The radius of the radial gradient relative to the shape bounding box.
+        @member {number}
+        */
+        radius?: number;
+        /**
+        The color stops of the gradient.
+Can contain either plain objects or GradientStop instances.
+        @member {any}
+        */
+        stops?: any;
+    }
+    interface RadialGradientEvent {
+        sender: RadialGradient;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Rect extends kendo.drawing.Element {
+
+
+        options: RectOptions;
+
+
+        constructor(geometry: kendo.geometry.Rect, options?: RectOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle geometry.
+        @method
+        @returns The current rectangle geometry.
+        */
+        geometry(): kendo.geometry.Rect;
+        /**
+        Gets or sets the rectangle geometry.
+        @method
+        @param value - The new geometry to use.
+        */
+        geometry(value: kendo.geometry.Rect): void;
+        /**
+        Sets the shape fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Rect;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Sets the shape stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Rect;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface RectOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the shape.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the shape.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface RectEvent {
+        sender: Rect;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    class Segment extends kendo.Class {
+
+
+        options: SegmentOptions;
+
+
+        constructor(anchor: kendo.geometry.Point, controlIn: kendo.geometry.Point, controlOut: kendo.geometry.Point);
+
+
+        /**
+        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current anchor point.
+        */
+        anchor(): kendo.geometry.Point;
+        /**
+        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new anchor point.
+        */
+        anchor(value: kendo.geometry.Point): void;
+        /**
+        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current control point.
+        */
+        controlIn(): kendo.geometry.Point;
+        /**
+        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new control point.
+        */
+        controlIn(value: kendo.geometry.Point): void;
+        /**
+        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @returns The current control point.
+        */
+        controlOut(): kendo.geometry.Point;
+        /**
+        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
+        @method
+        @param value - The new control point.
+        */
+        controlOut(value: kendo.geometry.Point): void;
+
+    }
+
+    interface SegmentOptions {
+        name?: string;
+    }
+    interface SegmentEvent {
+        sender: Segment;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+    interface StrokeOptions  {
+
+
+
+        /**
+                The stroke color in any of the following formats.| Value          | Description
+| ---            | --- | ---
+| red            | Basic or Extended CSS Color name
+| #ff0000        | Hex RGB value
+| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the stroke.
+                */
+                color?: string;
+        /**
+                The stroke dash type.| Value            |                                              | Description
+| ---              | :---:                                        | ---
+| dash           |               | a line consisting of dashes
+| dashDot        |           | a line consisting of a repeating pattern of dash-dot
+| dot            |                | a line consisting of dots
+| longDash       |          | a line consisting of a repeating pattern of long-dash
+| longDashDot    |      | a line consisting of a repeating pattern of long-dash dot
+| longDashDotDot |  | a line consisting of a repeating pattern of long-dash dot-dot
+| solid          |              | a solid line
+                */
+                dashType?: string;
+        /**
+                The stroke line cap style.| Value    |                                     | Description
+| ---      | :---:                               | ---
+| butt   |    | a flat edge with no cap
+| round  |   | a rounded cap
+| square |  | a square cap
+                */
+                lineCap?: string;
+        /**
+                The stroke line join style.| Value   |                                     | Description
+| ---     | :---:                               | ---
+| bevel |  | a beveled join
+| miter |  | a square join
+| round |  | a rounded join
+                */
+                lineJoin?: string;
+        /**
+                The stroke opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+                */
+                opacity?: number;
+        /**
+                The stroke width in pixels.
+                */
+                width?: number;
+
+
+
+
+    }
+
+
+
+    class Surface extends kendo.Observable {
+
+
+        options: SurfaceOptions;
+
+
+        constructor(options?: SurfaceOptions);
+
+        static create(element: JQuery, options?: any): kendo.drawing.Surface;
+        static create(element: Element, options?: any): kendo.drawing.Surface;
+
+        /**
+        Clears the drawing surface.
+        @method
+        */
+        clear(): void;
+        /**
+        Draws the element and its children on the surface.
+Existing elements will remain visible.
+        @method
+        @param element - The element to draw.
+        */
+        draw(element: kendo.drawing.Element): void;
+        /**
+        Returns the target drawing element of a DOM event.
+        @method
+        @param e - The original DOM or jQuery event object.
+        @returns The target drawing element, if any.
+        */
+        eventTarget(e: any): kendo.drawing.Element;
+        /**
+        Resizes the surface to match the size of the container.
+        @method
+        @param force - Whether to proceed with resizing even if the container dimensions have not changed.
+        */
+        resize(force?: boolean): void;
+
+    }
+
+    interface SurfaceOptions {
+        name?: string;
+        /**
+        The preferred type of surface to create.
+Supported types (case insensitive):
+- svg
+- canvas
+- vmlThis option will be ignored if not supported by the browser.
+See Supported Browsers
+        @member {string}
+        */
+        type?: string;
+        /**
+        The height of the surface element.
+By default the surface will expand to fill the height of the first positioned container.
+        @member {string}
+        */
+        height?: string;
+        /**
+        The width of the surface element.
+By default the surface will expand to fill the width of the first positioned container.
+        @member {string}
+        */
+        width?: string;
+        /**
+        Triggered when an element has been clicked.
+        */
+        click?(e: SurfaceClickEvent): void;
+        /**
+        Triggered when the mouse is moved over an element.
+        */
+        mouseenter?(e: SurfaceMouseenterEvent): void;
+        /**
+        Triggered when the mouse is leaves an element.
+        */
+        mouseleave?(e: SurfaceMouseleaveEvent): void;
+    }
+    interface SurfaceEvent {
+        sender: Surface;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+    interface SurfaceClickEvent extends SurfaceEvent {
+        /**
+        The clicked element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+    interface SurfaceMouseenterEvent extends SurfaceEvent {
+        /**
+        The target element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+    interface SurfaceMouseleaveEvent extends SurfaceEvent {
+        /**
+        The target element.
+        @member {kendo.drawing.Element}
+        */
+        element?: kendo.drawing.Element;
+        /**
+        The browser event that triggered the click.
+        @member {any}
+        */
+        originalEvent?: any;
+    }
+
+
+    class Text extends kendo.drawing.Element {
+
+
+        options: TextOptions;
+
+
+        constructor(content: string, position: kendo.geometry.Point, options?: TextOptions);
+
+
+        /**
+        Returns the bounding box of the element with transformations applied.
+Inherited from Element.bbox
+        @method
+        @returns The bounding box of the element with transformations applied.
+        */
+        bbox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @returns The current element clipping path.
+        */
+        clip(): kendo.drawing.Path;
+        /**
+        Gets or sets the element clipping path.
+Inherited from Element.clip
+        @method
+        @param clip - The element clipping path.
+        */
+        clip(clip: kendo.drawing.Path): void;
+        /**
+        Returns the bounding box of the element with clipping and transformations applied.
+Inherited from Element.clippedBBox
+        @method
+        @returns The bounding box of the element with clipping transformations applied.
+        */
+        clippedBBox(): kendo.geometry.Rect;
+        /**
+        Gets or sets the text content.
+        @method
+        @returns The current content of the text.
+        */
+        content(): string;
+        /**
+        Gets or sets the text content.
+        @method
+        @param value - The new text content to set.
+        */
+        content(value: string): void;
+        /**
+        Sets the text fill.
+        @method
+        @param color - The fill color to set.
+        @param opacity - The fill opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        fill(color: string, opacity?: number): kendo.drawing.Text;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @returns The current element opacity.
+        */
+        opacity(): number;
+        /**
+        Gets or sets the element opacity.
+Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
+        @method
+        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
+        */
+        opacity(opacity: number): void;
+        /**
+        Gets or sets the position of the text upper left corner.
+        @method
+        @returns The current position of the text upper left corner.
+        */
+        position(): kendo.geometry.Point;
+        /**
+        Gets or sets the position of the text upper left corner.
+        @method
+        @param value - The new position of the text upper left corner.
+        */
+        position(value: kendo.geometry.Point): void;
+        /**
+        Sets the text stroke.
+        @method
+        @param color - The stroke color to set.
+        @param width - The stroke width to set.
+        @param opacity - The stroke opacity to set.
+        @returns The current instance to allow chaining.
+        */
+        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Text;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @returns The current transformation on the element.
+        */
+        transform(): kendo.geometry.Transformation;
+        /**
+        Gets or sets the transformation of the element.
+Inherited from Element.transform
+        @method
+        @param transform - The transformation to apply to the element.
+        */
+        transform(transform: kendo.geometry.Transformation): void;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @returns true if the element is visible; false otherwise.
+        */
+        visible(): boolean;
+        /**
+        Gets or sets the visibility of the element.
+Inherited from Element.visible
+        @method
+        @param visible - A flag indicating if the element should be visible.
+        */
+        visible(visible: boolean): void;
+
+    }
+
+    interface TextOptions {
+        name?: string;
+        /**
+        The element clipping path.
+Inherited from Element.clip
+        @member {kendo.drawing.Path}
+        */
+        clip?: kendo.drawing.Path;
+        /**
+        The element cursor.
+Inherited from Element.cursor
+        @member {string}
+        */
+        cursor?: string;
+        /**
+        The fill options of the text.
+        @member {kendo.drawing.FillOptions}
+        */
+        fill?: kendo.drawing.FillOptions;
+        /**
+        The font to use for rendering the text.
+Accepts the standard CSS font syntax.Examples of valid font values:
+* Size and family: "2em 'Open Sans', sans-serif"
+* Style, size and family: "italic 2em 'Open Sans', sans-serif"
+        @member {string}
+        */
+        font?: string;
+        /**
+        The element opacity.
+Inherited from Element.opacity
+        @member {number}
+        */
+        opacity?: number;
+        /**
+        The stroke options of the text.
+        @member {kendo.drawing.StrokeOptions}
+        */
+        stroke?: kendo.drawing.StrokeOptions;
+        /**
+        The transformation to apply to this element.
+Inherited from Element.transform
+        @member {kendo.geometry.Transformation}
+        */
+        transform?: kendo.geometry.Transformation;
+        /**
+        A flag, indicating if the element is visible.
+Inherited from Element.visible
+        @member {boolean}
+        */
+        visible?: boolean;
+    }
+    interface TextEvent {
+        sender: Text;
+        preventDefault: Function;
+        isDefaultPrevented(): boolean;
+    }
+
+
+}
 declare module kendo.dataviz.geometry {
     class Arc extends Observable {
 
@@ -7667,6 +10510,7 @@ The current instance elements are not altered.
                 */
                 y: number;
 
+        constructor(x: number, y: number);
 
         static create(x: number, y: number): kendo.geometry.Point;
         static create(x: any, y: number): kendo.geometry.Point;
@@ -8125,2036 +10969,6 @@ Negative values or values greater than 360 will be normalized.
     }
     interface TransformationEvent {
         sender: Transformation;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-}
-declare module kendo.dataviz.drawing {
-    class Arc extends kendo.drawing.Element {
-
-
-        options: ArcOptions;
-
-
-        constructor(geometry: kendo.geometry.Arc, options?: ArcOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the arc geometry.
-        @method
-        @returns The current arc geometry.
-        */
-        geometry(): kendo.geometry.Arc;
-        /**
-        Gets or sets the arc geometry.
-        @method
-        @param value - The new geometry to use.
-        */
-        geometry(value: kendo.geometry.Arc): void;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Arc;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Arc;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ArcOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ArcEvent {
-        sender: Arc;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Circle extends kendo.drawing.Element {
-
-
-        options: CircleOptions;
-
-
-        constructor(geometry: kendo.geometry.Circle, options?: CircleOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the circle geometry.
-        @method
-        @returns The current circle geometry.
-        */
-        geometry(): kendo.geometry.Circle;
-        /**
-        Gets or sets the circle geometry.
-        @method
-        @param value - The new geometry to use.
-        */
-        geometry(value: kendo.geometry.Circle): void;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Circle;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Circle;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface CircleOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface CircleEvent {
-        sender: Circle;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Element extends kendo.Class {
-
-
-        options: ElementOptions;
-
-
-        constructor(options?: ElementOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.This is the rectangle that will fit around the actual rendered element.
-        @method
-        @returns The bounding box of the element with clipping and transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the transformation of the element.
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ElementOptions {
-        name?: string;
-        /**
-        The clipping path for this element.The path instance will be monitored for changes.
-It can be replaced by calling the clip method.
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The element opacity.
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The transformation to apply to this element.
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ElementEvent {
-        sender: Element;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface FillOptions  {
-
-
-
-        /**
-                The fill color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-                */
-                color: string;
-        /**
-                The fill opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-                */
-                opacity: number;
-
-
-
-
-    }
-
-
-
-    class Gradient extends kendo.Class {
-
-
-        options: GradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: GradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-        @method
-        @param offset - The stop offset from the start of the element.
-Ranges from 0 (start of gradient) to 1 (end of gradient).
-        @param color - The color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-        @param opacity - The fill opacity.
-Ranges from 0 (completely transparent) to 1 (completely opaque).
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Removes a color stop from the gradient.
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface GradientOptions {
-        name?: string;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface GradientEvent {
-        sender: Gradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class GradientStop extends kendo.Class {
-
-
-        options: GradientStopOptions;
-
-
-        constructor(options?: GradientStopOptions);
-
-
-
-    }
-
-    interface GradientStopOptions {
-        name?: string;
-        /**
-        The stop offset from the start of the element.
-Ranges from 0 (start of gradient) to 1 (end of gradient).
-        @member {number}
-        */
-        offset?: number;
-        /**
-        The color in any of the following formats.| Format         | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the fill.
-        @member {string}
-        */
-        color?: string;
-        /**
-        The fill opacity.
-Ranges from 0 (completely transparent) to 1 (completely opaque).
-        @member {number}
-        */
-        opacity?: number;
-    }
-    interface GradientStopEvent {
-        sender: GradientStop;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Group extends kendo.drawing.Element {
-
-
-        options: GroupOptions;
-
-        /**
-                The children of this group.
-                */
-                children: any;
-
-        constructor(options?: GroupOptions);
-
-
-        /**
-        Appends the specified element as a last child of the group.
-        @method
-        @param element - The element to append. Multiple parameters are accepted.
-        */
-        append(element: kendo.drawing.Element): void;
-        /**
-        Removes all child elements from the group.
-        @method
-        */
-        clear(): void;
-        /**
-        Gets or sets the group clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current group clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the group clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The group clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @method
-        @returns The current group opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @method
-        @param opacity - The group opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Removes the specified element from the group.
-        @method
-        @param element - The element to remove.
-        */
-        remove(element: kendo.drawing.Element): void;
-        /**
-        Removes the child element at the specified position.
-        @method
-        @param index - The index at which the element currently resides.
-        */
-        removeAt(index: number): void;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface GroupOptions {
-        name?: string;
-        /**
-        The group clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The group opacity.
-Inherited from Element.opacityThe opacity of any child groups and elements will be multiplied by this value.
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        Page options to apply during PDF export.
-        @member {kendo.drawing.PDFOptions}
-        */
-        pdf?: kendo.drawing.PDFOptions;
-        /**
-        The transformation to apply to this group and its children.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the group and its children are visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface GroupEvent {
-        sender: Group;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Image extends kendo.drawing.Element {
-
-
-        options: ImageOptions;
-
-
-        constructor(src: string, rect: kendo.geometry.Rect);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacity
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacity
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the image source URL.
-        @method
-        @returns The current image source URL.
-        */
-        src(): string;
-        /**
-        Gets or sets the image source URL.
-        @method
-        @param value - The new source URL.
-        */
-        src(value: string): void;
-        /**
-        Gets or sets the rectangle defines the image position and size.
-        @method
-        @returns The current image rectangle.
-        */
-        rect(): kendo.geometry.Rect;
-        /**
-        Gets or sets the rectangle defines the image position and size.
-        @method
-        @param value - The new image rectangle.
-        */
-        rect(value: kendo.geometry.Rect): void;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface ImageOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface ImageEvent {
-        sender: Image;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Layout extends kendo.drawing.Group {
-
-
-        options: LayoutOptions;
-
-
-        constructor(rect: kendo.geometry.Rect, options?: LayoutOptions);
-
-
-        /**
-        Gets or sets the layout rectangle.
-        @method
-        @returns The current rectangle.
-        */
-        rect(): kendo.geometry.Rect;
-        /**
-        Gets or sets the layout rectangle.
-        @method
-        @param rect - The layout rectangle.
-        */
-        rect(rect: kendo.geometry.Rect): void;
-        /**
-        Arranges the elements based on the current options.
-        @method
-        */
-        reflow(): void;
-
-    }
-
-    interface LayoutOptions {
-        name?: string;
-        /**
-        Specifies the alignment of the content.
-        @member {string}
-        */
-        alignContent?: string;
-        /**
-        Specifies the alignment of the items based.
-        @member {string}
-        */
-        alignItems?: string;
-        /**
-        Specifies how should the content be justified.
-        @member {string}
-        */
-        justifyContent?: string;
-        /**
-        Specifies the distance between the lines for wrapped layout.
-        @member {number}
-        */
-        lineSpacing?: number;
-        /**
-        Specifies the distance between the elements.
-        @member {number}
-        */
-        spacing?: number;
-        /**
-        Specifies layout orientation. The supported values are:
-        @member {string}
-        */
-        orientation?: string;
-        /**
-        Specifies the behavior when the elements size exceeds the rectangle size. If set to true, the elements will be moved to the next "line". If set to false, the layout will be scaled so that the elements fit in the rectangle.
-        @member {boolean}
-        */
-        wrap?: boolean;
-    }
-    interface LayoutEvent {
-        sender: Layout;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class LinearGradient extends kendo.drawing.Gradient {
-
-
-        options: LinearGradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: LinearGradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-Inherited from Gradient.addStop
-        @method
-        @param offset - 
-        @param color - The color of the stop.
-        @param opacity - The fill opacity.
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @returns The current end point of the gradient.
-        */
-        end(): kendo.geometry.Point;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        end(end: any): void;
-        /**
-        Gets or sets the end point of the gradient.
-        @method
-        @param end - The end point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        end(end: kendo.geometry.Point): void;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @returns The current start point of the gradient.
-        */
-        start(): kendo.geometry.Point;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        start(start: any): void;
-        /**
-        Gets or sets the start point of the gradient.
-        @method
-        @param start - The start point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        start(start: kendo.geometry.Point): void;
-        /**
-        Removes a color stop from the gradient.
-Inherited from Gradient.removeStop
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface LinearGradientOptions {
-        name?: string;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface LinearGradientEvent {
-        sender: LinearGradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class MultiPath extends kendo.drawing.Element {
-
-
-        options: MultiPathOptions;
-
-        /**
-                A collection of sub-paths.
-                */
-                paths: any;
-
-        constructor(options?: MultiPathOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Closes the current sub-path by linking its current end point with its start point.
-        @method
-        @returns The current instance to allow chaining.
-        */
-        close(): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: any): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: kendo.geometry.Point): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: any): kendo.drawing.MultiPath;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point): kendo.drawing.MultiPath;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: number, y?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: any, y?: number): kendo.drawing.MultiPath;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: number, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: any, y?: number): kendo.drawing.MultiPath;
-        /**
-        Creates a new sub-path or clears all segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.MultiPath;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.MultiPath;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface MultiPathOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface MultiPathEvent {
-        sender: MultiPath;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class OptionsStore extends kendo.Class {
-
-
-        options: OptionsStoreOptions;
-
-        /**
-                An optional observer for the options store.Upon field modification, the optionsChange(e) method on the observer will be called
-with a single argument containing two fields:
-* field - The fully qualified field name
-* value - The new field value
-                */
-                observer: any;
-
-        constructor(options?: OptionsStoreOptions);
-
-
-        /**
-        Gets the value of the specified option.
-        @method
-        @param field - The field name to retrieve.
-Must be a fully qualified name (e.g. "foo.bar") for nested options.
-        @returns The current option value.
-        */
-        get(field: string): any;
-        /**
-        Sets the value of the specified option.
-        @method
-        @param field - The name of the option to set.
-Must be a fully qualified name (e.g. "foo.bar") for nested options.
-        @param value - The new option value.If the new value is exactly the same as the new value the operation
-will not trigger options change on the observer (if any).
-        */
-        set(field: string, value: any): void;
-
-    }
-
-    interface OptionsStoreOptions {
-        name?: string;
-    }
-    interface OptionsStoreEvent {
-        sender: OptionsStore;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface PDFOptions  {
-
-
-
-        /**
-                The creator of the PDF document.
-                */
-                creator: string;
-        /**
-                The date when the PDF document is created. Defaults to new Date().
-                */
-                date: Date;
-        /**
-                Specifies the keywords of the exported PDF file.
-                */
-                keywords: string;
-        /**
-                Set to true to reverse the paper dimensions if needed such that width is the larger edge.
-                */
-                landscape: boolean;
-        /**
-                Specifies the margins of the page (numbers or strings with units). Supported
-units are "mm", "cm", "in" and "pt" (default).
-                */
-                margin: any;
-        /**
-                Specifies the paper size of the PDF document.
-The default "auto" means paper size is determined by content.Supported values:
-                */
-                paperSize: any;
-        /**
-                Sets the subject of the PDF file.
-                */
-                subject: string;
-        /**
-                Sets the title of the PDF file.
-                */
-                title: string;
-
-
-
-
-    }
-
-
-
-    class Path extends kendo.drawing.Element {
-
-
-        options: PathOptions;
-
-        /**
-                A collection of the path segments.
-                */
-                segments: any;
-
-        constructor(options?: PathOptions);
-
-        static fromPoints(points: any): kendo.drawing.Path;
-        static fromRect(rect: kendo.geometry.Rect): kendo.drawing.Path;
-        static parse(svgPath: string, options?: any): kendo.drawing.Path;
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Closes the path by linking the current end point with the start point.
-        @method
-        @returns The current instance to allow chaining.
-        */
-        close(): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: any): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: any, controlIn: kendo.geometry.Point): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: any): kendo.drawing.Path;
-        /**
-        Draws a cubic Bézier curve (with two control points).A quadratic Bézier curve (with one control point) can be plotted by making the control point equal.
-        @method
-        @param controlOut - The first control point for the curve.
-        @param controlIn - The second control point for the curve.
-        @returns The current instance to allow chaining.
-        */
-        curveTo(controlOut: kendo.geometry.Point, controlIn: kendo.geometry.Point): kendo.drawing.Path;
-        /**
-        Sets the shape fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: number, y?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: any, y?: number): kendo.drawing.Path;
-        /**
-        Draws a straight line to the specified absolute coordinates.
-        @method
-        @param x - The line end X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The line end Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        lineTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: number, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: any, y?: number): kendo.drawing.Path;
-        /**
-        Clears all existing segments and moves the starting point to the specified absolute coordinates.
-        @method
-        @param x - The starting X coordinate or a Point/Array with X and Y coordinates.
-        @param y - The starting Y coordinate.Optional if the first parameter is a Point/Array.
-        @returns The current instance to allow chaining.
-        */
-        moveTo(x: kendo.geometry.Point, y?: number): kendo.drawing.Path;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Sets the shape stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Path;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface PathOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the shape.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the shape.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface PathEvent {
-        sender: Path;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class RadialGradient extends kendo.drawing.Gradient {
-
-
-        options: RadialGradientOptions;
-
-        /**
-                The array of gradient color stops.
-Contains GradientStop instances.
-                */
-                stops: any;
-
-        constructor(options?: RadialGradientOptions);
-
-
-        /**
-        Adds a color stop to the gradient.
-Inherited from Gradient.addStop
-        @method
-        @param offset - 
-        @param color - The color of the stop.
-        @param opacity - The fill opacity.
-        @returns The new gradient color stop.
-        */
-        addStop(offset: number, color: string, opacity: number): kendo.drawing.GradientStop;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @returns The current radius of the gradient.
-        */
-        center(): kendo.geometry.Point;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        center(center: any): void;
-        /**
-        Gets or sets the center point of the gradient.
-        @method
-        @param center - The center point of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        */
-        center(center: kendo.geometry.Point): void;
-        /**
-        Gets or sets the radius of the gradient.
-        @method
-        @returns The current radius of the gradient.
-        */
-        radius(): number;
-        /**
-        Gets or sets the radius of the gradient.
-        @method
-        @param value - The new radius of the gradient.
-        */
-        radius(value: number): void;
-        /**
-        Removes a color stop from the gradient.
-Inherited from Gradient.removeStop
-        @method
-        @param stop - The gradient color stop to remove.
-        */
-        removeStop(stop: kendo.drawing.GradientStop): void;
-
-    }
-
-    interface RadialGradientOptions {
-        name?: string;
-        /**
-        The center of the gradient.Coordinates are relative to the shape bounding box.
-For example [0, 0] is top left and [1, 1] is bottom right.
-        @member {any}
-        */
-        center?: any;
-        /**
-        The radius of the radial gradient relative to the shape bounding box.
-        @member {number}
-        */
-        radius?: number;
-        /**
-        The color stops of the gradient.
-Can contain either plain objects or GradientStop instances.
-        @member {any}
-        */
-        stops?: any;
-    }
-    interface RadialGradientEvent {
-        sender: RadialGradient;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    class Segment extends kendo.Class {
-
-
-        options: SegmentOptions;
-
-
-        constructor(anchor: kendo.geometry.Point, controlIn: kendo.geometry.Point, controlOut: kendo.geometry.Point);
-
-
-        /**
-        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current anchor point.
-        */
-        anchor(): kendo.geometry.Point;
-        /**
-        Gets or sets the segment anchor point.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new anchor point.
-        */
-        anchor(value: kendo.geometry.Point): void;
-        /**
-        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current control point.
-        */
-        controlIn(): kendo.geometry.Point;
-        /**
-        Gets or sets the first curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new control point.
-        */
-        controlIn(value: kendo.geometry.Point): void;
-        /**
-        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @returns The current control point.
-        */
-        controlOut(): kendo.geometry.Point;
-        /**
-        Gets or sets the second curve control point of this segment.The setter returns the current Segment to allow chaining.
-        @method
-        @param value - The new control point.
-        */
-        controlOut(value: kendo.geometry.Point): void;
-
-    }
-
-    interface SegmentOptions {
-        name?: string;
-    }
-    interface SegmentEvent {
-        sender: Segment;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-
-    interface StrokeOptions  {
-
-
-
-        /**
-                The stroke color in any of the following formats.| Value          | Description
-| ---            | --- | ---
-| red            | Basic or Extended CSS Color name
-| #ff0000        | Hex RGB value
-| rgb(255, 0, 0) | RGB valueSpecifying 'none', 'transparent' or '' (empty string) will clear the stroke.
-                */
-                color: string;
-        /**
-                The stroke dash type.| Value            |                                              | Description
-| ---              | :---:                                        | ---
-| dash           |               | a line consisting of dashes
-| dashDot        |           | a line consisting of a repeating pattern of dash-dot
-| dot            |                | a line consisting of dots
-| longDash       |          | a line consisting of a repeating pattern of long-dash
-| longDashDot    |      | a line consisting of a repeating pattern of long-dash dot
-| longDashDotDot |  | a line consisting of a repeating pattern of long-dash dot-dot
-| solid          |              | a solid line
-                */
-                dashType: string;
-        /**
-                The stroke line cap style.| Value    |                                     | Description
-| ---      | :---:                               | ---
-| butt   |    | a flat edge with no cap
-| round  |   | a rounded cap
-| square |  | a square cap
-                */
-                lineCap: string;
-        /**
-                The stroke line join style.| Value   |                                     | Description
-| ---     | :---:                               | ---
-| bevel |  | a beveled join
-| miter |  | a square join
-| round |  | a rounded join
-                */
-                lineJoin: string;
-        /**
-                The stroke opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-                */
-                opacity: number;
-        /**
-                The stroke width in pixels.
-                */
-                width: number;
-
-
-
-
-    }
-
-
-
-    class Surface extends kendo.Observable {
-
-
-        options: SurfaceOptions;
-
-
-        constructor(options?: SurfaceOptions);
-
-        static create(element: JQuery, options?: any): kendo.drawing.Surface;
-        static create(element: Element, options?: any): kendo.drawing.Surface;
-
-        /**
-        Clears the drawing surface.
-        @method
-        */
-        clear(): void;
-        /**
-        Draws the element and its children on the surface.
-Existing elements will remain visible.
-        @method
-        @param element - The element to draw.
-        */
-        draw(element: kendo.drawing.Element): void;
-        /**
-        Returns the target drawing element of a DOM event.
-        @method
-        @param e - The original DOM or jQuery event object.
-        @returns The target drawing element, if any.
-        */
-        eventTarget(e: any): kendo.drawing.Element;
-        /**
-        Resizes the surface to match the size of the container.
-        @method
-        @param force - Whether to proceed with resizing even if the container dimensions have not changed.
-        */
-        resize(force?: boolean): void;
-
-    }
-
-    interface SurfaceOptions {
-        name?: string;
-        /**
-        The preferred type of surface to create.
-Supported types (case insensitive):
-- svg
-- canvas
-- vmlThis option will be ignored if not supported by the browser.
-See Supported Browsers
-        @member {string}
-        */
-        type?: string;
-        /**
-        The height of the surface element.
-By default the surface will expand to fill the height of the first positioned container.
-        @member {string}
-        */
-        height?: string;
-        /**
-        The width of the surface element.
-By default the surface will expand to fill the width of the first positioned container.
-        @member {string}
-        */
-        width?: string;
-        /**
-        Triggered when an element has been clicked.
-        */
-        click?(e: SurfaceClickEvent): void;
-        /**
-        Triggered when the mouse is moved over an element.
-        */
-        mouseenter?(e: SurfaceMouseenterEvent): void;
-        /**
-        Triggered when the mouse is leaves an element.
-        */
-        mouseleave?(e: SurfaceMouseleaveEvent): void;
-    }
-    interface SurfaceEvent {
-        sender: Surface;
-        preventDefault: Function;
-        isDefaultPrevented(): boolean;
-    }
-
-    interface SurfaceClickEvent extends SurfaceEvent {
-        /**
-        The clicked element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-    interface SurfaceMouseenterEvent extends SurfaceEvent {
-        /**
-        The target element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-    interface SurfaceMouseleaveEvent extends SurfaceEvent {
-        /**
-        The target element.
-        @member {kendo.drawing.Element}
-        */
-        element?: kendo.drawing.Element;
-        /**
-        The browser event that triggered the click.
-        @member {any}
-        */
-        originalEvent?: any;
-    }
-
-
-    class Text extends kendo.drawing.Element {
-
-
-        options: TextOptions;
-
-
-        constructor(content: string, position: kendo.geometry.Point, options?: TextOptions);
-
-
-        /**
-        Returns the bounding box of the element with transformations applied.
-Inherited from Element.bbox
-        @method
-        @returns The bounding box of the element with transformations applied.
-        */
-        bbox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @returns The current element clipping path.
-        */
-        clip(): kendo.drawing.Path;
-        /**
-        Gets or sets the element clipping path.
-Inherited from Element.clip
-        @method
-        @param clip - The element clipping path.
-        */
-        clip(clip: kendo.drawing.Path): void;
-        /**
-        Returns the bounding box of the element with clipping and transformations applied.
-Inherited from Element.clippedBBox
-        @method
-        @returns The bounding box of the element with clipping transformations applied.
-        */
-        clippedBBox(): kendo.geometry.Rect;
-        /**
-        Gets or sets the text content.
-        @method
-        @returns The current content of the text.
-        */
-        content(): string;
-        /**
-        Gets or sets the text content.
-        @method
-        @param value - The new text content to set.
-        */
-        content(value: string): void;
-        /**
-        Sets the text fill.
-        @method
-        @param color - The fill color to set.
-        @param opacity - The fill opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        fill(color: string, opacity?: number): kendo.drawing.Text;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @returns The current element opacity.
-        */
-        opacity(): number;
-        /**
-        Gets or sets the element opacity.
-Inherited from Element.opacityIf set, the stroke and fill opacity will be multiplied by the element opacity.
-        @method
-        @param opacity - The element opacity. Ranges from 0 (completely transparent) to 1 (completely opaque).
-        */
-        opacity(opacity: number): void;
-        /**
-        Gets or sets the position of the text upper left corner.
-        @method
-        @returns The current position of the text upper left corner.
-        */
-        position(): kendo.geometry.Point;
-        /**
-        Gets or sets the position of the text upper left corner.
-        @method
-        @param value - The new position of the text upper left corner.
-        */
-        position(value: kendo.geometry.Point): void;
-        /**
-        Sets the text stroke.
-        @method
-        @param color - The stroke color to set.
-        @param width - The stroke width to set.
-        @param opacity - The stroke opacity to set.
-        @returns The current instance to allow chaining.
-        */
-        stroke(color: string, width?: number, opacity?: number): kendo.drawing.Text;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @returns The current transformation on the element.
-        */
-        transform(): kendo.geometry.Transformation;
-        /**
-        Gets or sets the transformation of the element.
-Inherited from Element.transform
-        @method
-        @param transform - The transformation to apply to the element.
-        */
-        transform(transform: kendo.geometry.Transformation): void;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @returns true if the element is visible; false otherwise.
-        */
-        visible(): boolean;
-        /**
-        Gets or sets the visibility of the element.
-Inherited from Element.visible
-        @method
-        @param visible - A flag indicating if the element should be visible.
-        */
-        visible(visible: boolean): void;
-
-    }
-
-    interface TextOptions {
-        name?: string;
-        /**
-        The element clipping path.
-Inherited from Element.clip
-        @member {kendo.drawing.Path}
-        */
-        clip?: kendo.drawing.Path;
-        /**
-        The fill options of the text.
-        @member {kendo.drawing.FillOptions}
-        */
-        fill?: kendo.drawing.FillOptions;
-        /**
-        The font to use for rendering the text.
-Accepts the standard CSS font syntax.Examples of valid font values:
-* Size and family: "2em 'Open Sans', sans-serif"
-* Style, size and family: "italic 2em 'Open Sans', sans-serif"
-        @member {string}
-        */
-        font?: string;
-        /**
-        The element opacity.
-Inherited from Element.opacity
-        @member {number}
-        */
-        opacity?: number;
-        /**
-        The stroke options of the text.
-        @member {kendo.drawing.StrokeOptions}
-        */
-        stroke?: kendo.drawing.StrokeOptions;
-        /**
-        The transformation to apply to this element.
-Inherited from Element.transform
-        @member {kendo.geometry.Transformation}
-        */
-        transform?: kendo.geometry.Transformation;
-        /**
-        A flag, indicating if the element is visible.
-Inherited from Element.visible
-        @member {boolean}
-        */
-        visible?: boolean;
-    }
-    interface TextEvent {
-        sender: Text;
         preventDefault: Function;
         isDefaultPrevented(): boolean;
     }
